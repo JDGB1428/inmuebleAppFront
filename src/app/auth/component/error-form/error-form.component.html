@@ -1,0 +1,4 @@
+@if(control()?.hasError('serverError')){
+  <small class="text-red-600 text-xs font-bold">{{ control()?.getError('serverError') }}</small>
+}
+
