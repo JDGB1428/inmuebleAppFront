@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, computed, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { ChangeDetectorRef, Component, computed, inject, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { ErrorFormComponent } from "../error-form/error-form.component";
 import { HttpErrorResponse } from '@angular/common/http';
@@ -7,14 +8,11 @@ import { HTTPErrorResponseCustom } from '../../interfaces/auth-error.interfaces'
 
 @Component({
   selector: 'register-form',
-  imports: [ReactiveFormsModule, ErrorFormComponent],
+  imports: [RouterLink, ReactiveFormsModule, ErrorFormComponent],
   templateUrl: './register-form.component.html',
 })
 export class RegisterFormComponent {
 
-
-  show_password = signal(false);
-  show_confirm_password = signal(false);
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
@@ -22,27 +20,26 @@ export class RegisterFormComponent {
   error = signal<HTTPErrorResponseCustom | null>(null);
 
   registerForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    password_confirmation: ['', [Validators.required, Validators.minLength(6)]],
-    phone: [0, Validators.required]
+    name: [''],
+    email: [''],
+    password: [''],
+    password_confirmation: [''],
+    phone: [0]
   })
 
-  conditionalSwitchPassword = computed(() => this.show_password() ? 'text' : 'password');
-  conditionalSwitchConfirmPassword = computed(() => this.show_confirm_password() ? 'text' : 'password');
 
   onSubmit(): void {
 
-    this.authService.authRegister(this.registerForm.value).subscribe({
-      next: (user) => {
-        console.log('Usuario creado:', user);
-      },
-      error: (err) => {
-        this.handlerError(err);
-      }
-    });
-
+    if (this.registerForm.valid) {
+      this.authService.authRegister(this.registerForm.value).subscribe({
+        next: (user) => {
+          console.log('Usuario creado:', user);
+        },
+        error: (err) => {
+          this.handlerError(err);
+        }
+      });
+    }
   }
 
   private handlerError(err: HttpErrorResponse): void {
@@ -54,6 +51,7 @@ export class RegisterFormComponent {
         const control = this.registerForm.get(field);
         if (control) {
           control.setErrors({ serverError: laravelErrors[field][0] });
+          this.registerForm.markAllAsTouched();
         }
       });
 
