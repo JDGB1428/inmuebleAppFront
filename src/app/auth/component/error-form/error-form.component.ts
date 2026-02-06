@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { HTTPErrorResponseCustom } from '../../interfaces/auht-error.interfaces';
+import { HTTPErrorResponseCustom } from '../../interfaces/auth-error.interfaces';
 
 @Component({
   selector: 'error-form',
