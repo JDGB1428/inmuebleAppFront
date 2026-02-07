@@ -2,3 +2,20 @@
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark, cupcake;
 }
+
+@theme {
+
+  --animate-slide-out-right: slide-out-right 0.4s ease-in forwards;
+  --animate-progress: progress-shrink linear forwards;
+}
+
+@keyframes slide-out-right{
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(120%); opacity: 0; }
+  };
+
+  @keyframes progress-shrink{
+    from { width: 100%; }
+    to { width: 0%; }
+  };
+
