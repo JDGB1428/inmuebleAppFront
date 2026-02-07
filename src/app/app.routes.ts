@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { roleGuard } from './core/guards/role.guard';
 
 
 export const routes: Routes = [
@@ -8,7 +9,9 @@ export const routes: Routes = [
   },
   {
     path: 'private',
-    loadChildren: () => import('./private-front/property.routes')
+    loadChildren: () => import('./private-front/property.routes'),
+    canMatch: [roleGuard],
+    data: {expectedRoles: ['client']}
   },
   {
     path: 'auth',
@@ -16,7 +19,15 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./admin-dashboard/admin.routes')
+    loadChildren: () => import('./admin-dashboard/admin.routes'),
+    canMatch: [roleGuard],
+    data: {expectedRoles: ['admin']}
+  },
+  {
+    path:'agent',
+    loadChildren: () => import('./agent-dashboard/agent.routes'),
+    canMatch: [roleGuard],
+    data: {expectedRoles: ['agent']}
   },
   {
     path: '',
