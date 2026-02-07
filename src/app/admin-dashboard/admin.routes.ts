@@ -5,10 +5,10 @@ import { AdminPageComponent } from "./page/admin-page/admin-page.component";
 
 export const adminRoutes:Routes = [
   {
-    path:'',
+    path:'dashboard',
     component: AdminLayoutComponent,
     children:[
-      { path:'dashboard/home',
+      { path:'home',
         component: AdminPageComponent,
       },
       {
