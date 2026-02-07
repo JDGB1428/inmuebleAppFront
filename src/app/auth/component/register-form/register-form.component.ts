@@ -1,10 +1,11 @@
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink, Routes } from '@angular/router';
 import { ChangeDetectorRef, Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { ErrorFormComponent } from "../error-form/error-form.component";
 import { HttpErrorResponse } from '@angular/common/http';
-import { HTTPErrorResponseCustom } from '../../interfaces/auth-error.interfaces';
+import { HTTPErrorResponseCustom } from '../../../core/interfaces/auth-error.interfaces';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'register-form',
@@ -16,6 +17,8 @@ export class RegisterFormComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private routes = inject(Router);
+  private toastService = inject(ToastService)
 
   error = signal<HTTPErrorResponseCustom | null>(null);
 
@@ -24,7 +27,7 @@ export class RegisterFormComponent {
     email: [''],
     password: [''],
     password_confirmation: [''],
-    phone: [0]
+    phone: []
   })
 
 
@@ -33,7 +36,12 @@ export class RegisterFormComponent {
     if (this.registerForm.valid) {
       this.authService.authRegister(this.registerForm.value).subscribe({
         next: (user) => {
-          console.log('Usuario creado:', user);
+          const role = String(user.roles[0]);
+          this.registerForm.reset();
+          localStorage.setItem('token', user.token);
+          localStorage.setItem('role', role)
+          this.authService.redirectByRole([role]);
+          this.toastService.show('El usuario ha sido creado correctamente','success', 3000)
         },
         error: (err) => {
           this.handlerError(err);
