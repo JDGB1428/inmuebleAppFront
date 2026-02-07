@@ -1,4 +1,4 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" action="">
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
   <fieldset class="fieldset">
     <label class="label">Nombre</label>
     <input type="text" class="input" formControlName="name" placeholder="Nombre" />
