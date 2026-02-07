@@ -13,7 +13,7 @@ export const InmueblesRoutes:Routes = [
     children: [
       {
         path: 'home',
-        component: HousePageComponent
+        component: HousePageComponent,
       },
       {
         path: 'departamentos',
@@ -36,7 +36,8 @@ export const InmueblesRoutes:Routes = [
         redirectTo: 'private/home',
         pathMatch: 'full'
       }
-    ]
+    ],
+
   }
 ]
 
