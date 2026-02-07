@@ -1,29 +1,64 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { AuthService } from '../../../core/services/auth.service';
+import { HTTPErrorResponseCustom } from '../../../core/interfaces/auth-error.interfaces';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorFormComponent } from '../error-form/error-form.component';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'login-form',
-  imports: [RouterLink,ReactiveFormsModule],
+  imports: [RouterLink,ReactiveFormsModule, ErrorFormComponent],
   templateUrl: './login-form.component.html',
 })
 export class LoginFormComponent {
-  show_password = signal(false);
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private cdr = inject(ChangeDetectorRef);
+  private toastService = inject(ToastService);
+  private routes = inject(Router)
 
-  loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+  error = signal<HTTPErrorResponseCustom | null>(null);
+
+  loginForm:FormGroup = this.fb.group({
+    email: [''],
+    password: [''],
   })
 
-  conditionalSwitchPassword = computed(() => this.show_password() ? 'text' : 'password');
-
   onSubmit(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched(); // Para que el componente de error que creamos brille
-      return;
+    if (this.loginForm.valid) {
+      this.authService.authLogin(this.loginForm.value).subscribe({
+        next: (user) => {
+          const role = String(user.roles[0]);
+          this.loginForm.reset();
+          localStorage.setItem('token', user.token);
+          localStorage.setItem('role', role);
+          this.authService.redirectByRole([role]);
+          this.toastService.show('El usuario a iniciado sesion correctamente', 'success', 3000)
+        },
+        error: (err) => {
+          this.handlerError(err);
+        }
+      });
     }
-    console.log(this.loginForm.value);
+  }
+
+  private handlerError(err: HttpErrorResponse): void {
+    if (err.status === 422) {
+      const validationError = err.error as HTTPErrorResponseCustom;
+      this.error.set(validationError);
+      const laravelErrors = validationError.errors;
+      Object.keys(laravelErrors).forEach((field) => {
+        const control = this.loginForm.get(field);
+        if (control) {
+          control.setErrors({ serverError: laravelErrors[field][0] });
+          this.loginForm.markAllAsTouched();
+        }
+      });
+
+      this.cdr.detectChanges();
+    }
   }
 
 }
