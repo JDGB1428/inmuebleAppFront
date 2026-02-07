@@ -1,7 +1,8 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" action="">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
   <fieldset class="fieldset">
     <label class="label">Email</label>
     <input type="email" class="input" placeholder="Email" formControlName="email" />
+    <error-form [control]="loginForm.get('email')" />
     <label class="label">Password</label>
     <div class="join">
       <input #txtPassword type="password" class="input join-item" formControlName="password" placeholder="Password" />
@@ -23,6 +24,7 @@
         </svg>
       </label>
     </div>
+    <error-form [control]="loginForm.get('password')" />
     <div class="flex justify-between mt-5 items-center">
       <a class="link link-hover">Forgot password?</a>
       <a [routerLink]="['/auth/register']" class="link link-hover font-bold text-xs">Registrarse</a>
