@@ -1,0 +1,33 @@
+<div class="toast toast-top toast-end z-50 flex flex-col gap-2 p-4 overflow-hidden pointer-events-none">
+
+  @for (toast of toastService.toasts(); track toast.id) {
+    <div
+      class="alert shadow-lg min-w-[300px] cursor-pointer pointer-events-auto transition-all
+             relative overflow-hidden border-0"
+      [class.alert-info]="toast.type === 'info'"
+      [class.alert-success]="toast.type === 'success'"
+      [class.alert-warning]="toast.type === 'warning'"
+      [class.alert-error]="toast.type === 'error'"
+
+
+      [class]="toast.closing ? 'animate-slide-out-right' : 'animate-slide-in-up'"
+
+      (click)="toastService.startRemove(toast.id)"
+    >
+      <div class="flex items-center gap-2 pb-1">
+         <span>{{ toast.text }}</span>
+      </div>
+
+
+      @if (toast.duration > 0) {
+        <div class="absolute bottom-0 left-0 w-full h-1 bg-black/10">
+          <div
+            class="h-full bg-current opacity-60 animate-progress origin-left"
+            [style.animation-duration.ms]="toast.duration"
+          ></div>
+        </div>
+      }
+
+    </div>
+  }
+</div>
