@@ -1,7 +1,12 @@
 import { Routes } from "@angular/router";
 import { NotFoundPageComponent } from "../private-front/pages/not-found-page/not-found-page.component";
 import { AdminLayoutComponent } from "./layout/admin-layout/admin-layout.component";
-import { AdminPageComponent } from "./page/admin-page/admin-page.component";
+import { HousePageComponent } from "./page/house-admin-page/house-page.component";
+import { OfficesPageComponent } from "../private-front/pages/offices-page/offices-page.component";
+import { ApartmentPageComponent } from "./page/apartment-admin-page/apartment-page.component";
+import { HomeAdminPage } from "./page/home-admin-page/home-admin-page.component";
+import { LandAdminPageComponent } from "./page/land-admin-page/land-admin-page.component";
+import { UserAdminPageComponent } from "./page/user-admin-page/user-admin-page.component";
 
 export const adminRoutes:Routes = [
   {
@@ -9,7 +14,22 @@ export const adminRoutes:Routes = [
     component: AdminLayoutComponent,
     children:[
       { path:'home',
-        component: AdminPageComponent,
+        component: HomeAdminPage,
+      },
+      { path:'houses',
+        component: HousePageComponent,
+      },
+      { path:'offices',
+        component: OfficesPageComponent,
+      },
+      { path:'apartments',
+        component: ApartmentPageComponent,
+      },
+      { path:'lands',
+        component: LandAdminPageComponent,
+      },
+      { path:'users',
+        component: UserAdminPageComponent,
       },
       {
         path: '**',
