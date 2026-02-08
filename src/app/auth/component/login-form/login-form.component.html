@@ -25,6 +25,12 @@
       </label>
     </div>
     <error-form [control]="loginForm.get('password')" />
+
+    <label class="label">
+      <input type="checkbox" formControlName="rememberMe" >
+      <span>Recordarme</span>
+    </label>
+
     <div class="flex justify-between mt-5 items-center">
       <a class="link link-hover">Forgot password?</a>
       <a [routerLink]="['/auth/register']" class="link link-hover font-bold text-xs">Registrarse</a>
