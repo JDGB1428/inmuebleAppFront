@@ -6,6 +6,7 @@ import { ErrorFormComponent } from "../error-form/error-form.component";
 import { HttpErrorResponse } from '@angular/common/http';
 import { HTTPErrorResponseCustom } from '../../../core/interfaces/auth-error.interfaces';
 import { ToastService } from '../../../core/services/toast.service';
+import { UserAdapater } from '../../../core/interfaces/user.interfaces';
 
 @Component({
   selector: 'register-form',
@@ -27,19 +28,19 @@ export class RegisterFormComponent {
     email: [''],
     password: [''],
     password_confirmation: [''],
-    phone: []
+    phone: [],
   })
 
 
   onSubmit(): void {
 
     if (this.registerForm.valid) {
-      this.authService.authRegister(this.registerForm.value).subscribe({
+      const saveUser: UserAdapater = this.registerForm.value;
+      this.authService.authRegister(saveUser).subscribe({
         next: (user) => {
           const role = String(user.roles[0]);
           this.registerForm.reset();
-          localStorage.setItem('token', user.token);
-          localStorage.setItem('role', role)
+          this.authService.saveSession(user.token, user, false, role);
           this.authService.redirectByRole([role]);
           this.toastService.show('El usuario ha sido creado correctamente','success', 3000)
         },
