@@ -20,10 +20,6 @@ export class AuthService {
     return this.http.post<HttpResponseLaravelAPi>(`${this.apiUrl}/api/login`, user, {
       withCredentials: true,
     }).pipe(
-      tap((response) => {
-        if (response.token) localStorage.setItem('token', response.token);
-        if (response.user.roles[0]) localStorage.setItem('role', String(response.user.roles[0]))
-      }),
       map((responseAPi) => AuthModel.mapHttpResponseLaravelApi(responseAPi)),
       catchError((error) => {
         return throwError(() => error);
@@ -36,9 +32,6 @@ export class AuthService {
     return this.http.post<HttpResponseLaravelAPi>(`${this.apiUrl}/api/register`, user, {
       withCredentials: true,
     }).pipe(
-      tap((response) => {
-        if(response.user.roles[0]) localStorage.setItem('role', String(response.user.roles[0]))
-      }),
       map((responseAPi) => AuthModel.mapHttpResponseLaravelApi(responseAPi)),
       catchError((error) => {
         return throwError(() => error);
@@ -50,12 +43,36 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/api/logout`, null, {}).pipe(
       finalize(() => {
         localStorage.removeItem('token');
-        localStorage.removeItem('role');
+        localStorage.removeItem('roles');
+        localStorage.removeItem('user');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('roles');
       }),
       catchError((error) => {
         return throwError(() => error);
       })
     )
+  }
+
+  saveSession(token:string, user:UserAdapater, remember_token:boolean, roles:string){
+    if(remember_token){
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
+      localStorage.setItem('roles', roles);
+    }else{
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('roles', roles);
+    }
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token') || sessionStorage.getItem('token');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 
 
