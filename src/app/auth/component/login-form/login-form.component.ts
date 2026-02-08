@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, computed, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../../../core/services/auth.service';
 import { HTTPErrorResponseCustom } from '../../../core/interfaces/auth-error.interfaces';
@@ -9,7 +9,7 @@ import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'login-form',
-  imports: [RouterLink,ReactiveFormsModule, ErrorFormComponent],
+  imports: [RouterLink,ReactiveFormsModule, ErrorFormComponent, FormsModule],
   templateUrl: './login-form.component.html',
 })
 export class LoginFormComponent {
@@ -24,16 +24,17 @@ export class LoginFormComponent {
   loginForm:FormGroup = this.fb.group({
     email: [''],
     password: [''],
+    rememberMe: [false]
   })
 
   onSubmit(): void {
     if (this.loginForm.valid) {
+      const { rememberMe } = this.loginForm.value;
       this.authService.authLogin(this.loginForm.value).subscribe({
         next: (user) => {
           const role = String(user.roles[0]);
           this.loginForm.reset();
-          localStorage.setItem('token', user.token);
-          localStorage.setItem('role', role);
+          this.authService.saveSession(user.token, user, rememberMe, role);
           this.authService.redirectByRole([role]);
           this.toastService.show('El usuario a iniciado sesion correctamente', 'success', 3000)
         },
