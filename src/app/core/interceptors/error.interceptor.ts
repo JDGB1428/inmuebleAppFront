@@ -16,7 +16,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 401) {
         // Limpiamos todo rastro del usuario
         localStorage.removeItem('token');
-        localStorage.removeItem('role');
+        localStorage.removeItem('roles');
+        localStorage.removeItem('user')
         router.navigate(['/auth/login']);
         toasService.show('Su sesion ha expirado, Ingrese nuevamente','error', 3000)
       }
