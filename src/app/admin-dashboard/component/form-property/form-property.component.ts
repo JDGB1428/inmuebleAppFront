@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-form-property',
+  selector: 'form-property',
   imports: [],
   templateUrl: './form-property.component.html',
 })
