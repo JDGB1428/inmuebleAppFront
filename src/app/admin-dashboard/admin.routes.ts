@@ -7,6 +7,7 @@ import { ApartmentPageComponent } from "./page/apartment-admin-page/apartment-pa
 import { HomeAdminPage } from "./page/home-admin-page/home-admin-page.component";
 import { LandAdminPageComponent } from "./page/land-admin-page/land-admin-page.component";
 import { UserAdminPageComponent } from "./page/user-admin-page/user-admin-page.component";
+import { ApartmentCreatePageComponent } from "./page/apartment-create-page/apartment-create-page.component";
 
 export const adminRoutes:Routes = [
   {
@@ -24,6 +25,10 @@ export const adminRoutes:Routes = [
       },
       { path:'apartments',
         component: ApartmentPageComponent,
+      },
+      {
+        path:'apartments/create',
+        component:ApartmentCreatePageComponent
       },
       { path:'lands',
         component: LandAdminPageComponent,
