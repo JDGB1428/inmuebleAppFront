@@ -1,13 +1,92 @@
-<form class="space-y-5 bg-base-200 border-base-300 rounded-box border p-4">
-  <h1 class="text-xl text-center font-extrabold">Registro de inmueble</h1>
+<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="space-y-4 fieldset bg-base-200 border-base-300 rounded-box  border p-4">
 
+  <!-- Título -->
+  <div>
+    <label class="block text-sm font-medium label">Título</label>
+    <input type="text" formControlName="title" class="border p-2 w-full rounded">
+  </div>
 
-  <label class="">Title</label>
-  <input type="text" class="input w-full" placeholder="My awesome page" />
+  <!-- Descripción -->
+  <div>
+    <label class="block text-sm font-medium">Descripción</label>
+    <textarea formControlName="description" class="border p-2 w-full rounded"></textarea>
+  </div>
 
-  <label class="">Slug</label>
-  <input type="text" class="input w-full" placeholder="my-awesome-page" />
+  <!-- Precio -->
+  <div>
+    <label class="block text-sm font-medium">Precio</label>
+    <input type="number" formControlName="price" class="border p-2 w-full rounded">
+  </div>
 
-  <label class="">Author</label>
-  <input type="text" class="input w-full" placeholder="Name" />
+  <!-- Dirección -->
+  <div>
+    <label class="block text-sm font-medium">Dirección</label>
+    <input type="text" formControlName="direction" class="border p-2 w-full rounded">
+  </div>
+
+  <!-- Habitaciones, Área, Baños (Grid para que se vea mejor) -->
+  <div class="grid grid-cols-3 gap-4">
+    <div>
+      <label class="block text-sm font-medium">Habitaciones</label>
+      <input type="number" formControlName="room" class="border p-2 w-full rounded">
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Área (m2)</label>
+      <input type="number" formControlName="area_m2" class="border p-2 w-full rounded">
+    </div>
+    <div>
+      <label class="block text-sm font-medium">Baños</label>
+      <input type="number" formControlName="bathrooms" class="border p-2 w-full rounded">
+    </div>
+  </div>
+
+  <!-- Categoría (Select) -->
+  <div>
+    <label class="block text-sm font-medium">Categoría</label>
+    <select formControlName="category_id" class="border p-2 w-full rounded">
+      <option value="" disabled>Selecciona una categoría</option>
+      @for (cat of categories; track cat.id) {
+        <option [value]="cat.id">{{ cat.name }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Estado (Select) -->
+  <div>
+    <label class="block text-sm font-medium">Estado</label>
+    <select formControlName="state" class="border p-2 w-full rounded">
+      @for (st of states; track st.value) {
+        <option [value]="st.value">{{ st.label }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- SECCIÓN DE IMÁGENES -->
+  <div class="border-2 border-dashed p-4 rounded text-center">
+    <label class="cursor-pointer block">
+      <span class="text-blue-600 font-bold">Subir Imágenes</span>
+      <!-- IMPORTANTE: multiple para seleccionar varias -->
+      <input
+        type="file"
+        multiple
+        (change)="onFileChange($event)"
+        accept="image/*"
+        class="hidden"
+      >
+    </label>
+
+    <!-- Previsualización de imágenes -->
+    <div class="flex flex-wrap gap-2 mt-4 justify-center">
+      @for (img of imagePreviews; track $index) {
+        <div class="relative w-24 h-24 border rounded overflow-hidden">
+          <img [src]="img" class="object-cover w-full h-full">
+        </div>
+      }
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    Guardar Inmueble
+  </button>
+
 </form>
