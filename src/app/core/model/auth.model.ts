@@ -1,4 +1,4 @@
-import { HttpResponseLaravelAPi } from "../interfaces/response_api.interfaces";
+import { HttpResponseLaravelAPi } from "../interfaces/http-reponses.interfaces";
 import { UserAdapater } from "../interfaces/user.interfaces";
 
 export class AuthModel {
