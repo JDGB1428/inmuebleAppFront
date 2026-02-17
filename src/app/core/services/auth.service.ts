@@ -5,8 +5,9 @@ import { catchError, finalize, map, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthModel } from '../model/auth.model';
 import { UserAdapater } from '../interfaces/user.interfaces';
-import { HttpResponseLaravelAPi } from '../interfaces/response_api.interfaces';
+import {  } from '../interfaces/response_api.interfaces';
 import { Router } from '@angular/router';
+import { HttpResponseLaravelAPi } from '../interfaces/http-reponses.interfaces';
 
 @Injectable({
   providedIn: 'root',
