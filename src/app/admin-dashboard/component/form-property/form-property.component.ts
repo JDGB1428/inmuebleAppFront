@@ -4,6 +4,8 @@ import { PropertyServices } from '../../../core/services/property.service';
 import { ErrorFormComponent } from "../../../auth/component/error-form/error-form.component";
 import { CategoryServices } from '../../../core/services/category.service';
 import { CategoryAdapter } from '../../../core/interfaces/category.interfaces';
+import { ToastService } from '../../../core/services/toast.service';
+import { Location } from '@angular/common';
 
 
 interface States {
@@ -22,6 +24,8 @@ export class FormPropertyComponent implements OnInit {
   private fb = inject(FormBuilder);
   private propertyService = inject(PropertyServices);
   private categoryService = inject(CategoryServices);
+  private toastService = inject(ToastService);
+  private location = inject(Location)
   selectedFiles: File[] = [];
   imagePreviews: string[] = []
   categories: CategoryAdapter[] = [];
@@ -52,23 +56,29 @@ export class FormPropertyComponent implements OnInit {
     'area_m2': [],
     'bathrooms': [],
     'state': ['available'],
-    'category_id':[],
+    'category_id': [],
   })
 
-  onFileChange(event: any) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.selectedFiles = Array.from(event.target.files); // Convertir a array real
-      this.imagePreviews = []; // Limpiar previos anteriores
+  onFileChange(event: Event, fileInput: HTMLInputElement) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
 
-      // Generar previsualizaciones
-      this.selectedFiles.forEach((file) => {
+    const newFiles = Array.from(input.files);
+
+    for (const f of newFiles) {
+      const exists = this.selectedFiles.some(x =>
+        x.name === f.name && x.size === f.size && x.lastModified === f.lastModified
+      );
+      if (!exists) {
+        this.selectedFiles.push(f);
+
+        // Preview
         const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.imagePreviews.push(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      });
+        reader.onload = () => this.imagePreviews.push(reader.result as string);
+        reader.readAsDataURL(f);
+      }
     }
+    fileInput.value = '';
   }
 
 
@@ -90,11 +100,15 @@ export class FormPropertyComponent implements OnInit {
 
 
       this.propertyService.createProperty(formData).subscribe({
-        next: (res) => console.log('Éxito', res),
-        error: (err) => console.error(err)
+        next: (res) => {
+          this.propertyForm.reset();
+          this.location.back();
+          this.toastService.show(`${res.message}` ,'success', 3000)
+        },
+        error: (err) => {
+          this.toastService.show(`${err.message}` ,'error', 3000)
+        }
       });
-
-      console.log(this.propertyForm.value);
     }
   }
 }
