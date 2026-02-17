@@ -1,5 +1,5 @@
 import { CategoryAdapter } from "../interfaces/category.interfaces"
-import { CategoryDto } from "../interfaces/response_api.interfaces"
+import { CategoryDto } from "../interfaces/response-dto.interfaces"
 
 export class CategoryModel {
 
