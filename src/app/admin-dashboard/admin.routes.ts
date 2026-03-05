@@ -1,13 +1,12 @@
 import { Routes } from "@angular/router";
 import { NotFoundPageComponent } from "../private-front/pages/not-found-page/not-found-page.component";
 import { AdminLayoutComponent } from "./layout/admin-layout/admin-layout.component";
-import { HousePageComponent } from "./page/house-admin-page/house-page.component";
-import { OfficesPageComponent } from "../private-front/pages/offices-page/offices-page.component";
-import { ApartmentPageComponent } from "./page/apartment-admin-page/apartment-page.component";
+import { ApartmentPageComponent } from "./page/property-admin-page/property-page.component";
 import { HomeAdminPage } from "./page/home-admin-page/home-admin-page.component";
-import { LandAdminPageComponent } from "./page/land-admin-page/land-admin-page.component";
 import { UserAdminPageComponent } from "./page/user-admin-page/user-admin-page.component";
 import { ApartmentCreatePageComponent } from "./page/apartment-create-page/apartment-create-page.component";
+import { PropertyShowPageComponent } from "./page/property-show-page/property-show-page.component";
+import { TrashPropertyPageComponent } from "./page/trash-property-page/trash-property-page.component";
 
 export const adminRoutes:Routes = [
   {
@@ -17,21 +16,20 @@ export const adminRoutes:Routes = [
       { path:'home',
         component: HomeAdminPage,
       },
-      { path:'houses',
-        component: HousePageComponent,
-      },
-      { path:'offices',
-        component: OfficesPageComponent,
-      },
-      { path:'apartments',
+      { path:'property',
         component: ApartmentPageComponent,
       },
       {
-        path:'apartments/create',
+        path:'property/create',
         component:ApartmentCreatePageComponent
       },
-      { path:'lands',
-        component: LandAdminPageComponent,
+      {
+        path:'property/trashed',
+        component:TrashPropertyPageComponent
+      },
+      {
+        path:'property/:id',
+        component:PropertyShowPageComponent
       },
       { path:'users',
         component: UserAdminPageComponent,
