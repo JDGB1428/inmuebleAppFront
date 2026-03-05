@@ -7,6 +7,14 @@
 
   --animate-slide-out-right: slide-out-right 0.4s ease-in forwards;
   --animate-progress: progress-shrink linear forwards;
+  --shimmer: shimmer 1.5s infinite linear
+
+  --font-montserrat: Montserrat, sans-serif;
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url("/assets/fonts/Montserrat/Montserrat-Medium.ttf") format("truetype");
 }
 
 @keyframes slide-out-right{
@@ -18,4 +26,9 @@
     from { width: 100%; }
     to { width: 0%; }
   };
+
+@keyframes shimmer {
+  0% { backgroundPosition: '-200% 0' }
+  100% { backgroundPosition: '200% 0' }
+}
 
