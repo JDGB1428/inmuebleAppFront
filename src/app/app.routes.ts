@@ -21,13 +21,7 @@ export const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./admin-dashboard/admin.routes'),
     canMatch: [roleGuard],
-    data: {expectedRoles: ['admin']}
-  },
-  {
-    path:'agent',
-    loadChildren: () => import('./agent-dashboard/agent.routes'),
-    canMatch: [roleGuard],
-    data: {expectedRoles: ['agent']}
+    data: {expectedRoles: ['admin','agent']}
   },
   {
     path: '',
