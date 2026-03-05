@@ -13,10 +13,20 @@ export type PropertyDTO = {
   user_id: number;
   updated_at: string;
   created_at: string;
+  deleted_at?: string | null;
+  feature: FeaturesDTO;
 }
 
-export type CategoryDto = {
-    id:   number;
-    name: string;
-    icon: string;
+export type CategoryDTO = {
+  id: number;
+  name: string;
+  icon: string;
+}
+
+export type FeaturesDTO = {
+  patio: boolean;
+  terrace: boolean;
+  pool: boolean;
+  gated_community: boolean;
+  security_24_7: boolean;
 }
