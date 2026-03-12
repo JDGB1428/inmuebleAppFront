@@ -7,6 +7,7 @@ import { UserAdminPageComponent } from "./page/user-admin-page/user-admin-page.c
 import { ApartmentCreatePageComponent } from "./page/apartment-create-page/apartment-create-page.component";
 import { PropertyShowPageComponent } from "./page/property-show-page/property-show-page.component";
 import { TrashPropertyPageComponent } from "./page/trash-property-page/trash-property-page.component";
+import { ProfileAdminPageComponent } from "./page/profile-admin-page/profile-admin-page.component";
 
 export const adminRoutes:Routes = [
   {
@@ -33,6 +34,10 @@ export const adminRoutes:Routes = [
       },
       { path:'users',
         component: UserAdminPageComponent,
+      },
+      {
+        path:'profile',
+        component:ProfileAdminPageComponent
       },
       {
         path: '**',
