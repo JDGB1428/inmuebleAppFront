@@ -1,1 +1,338 @@
-<p>home-admin-page works!</p>
+@if (isAdmin) {
+<!-- admin-dashboard.component.html -->
+<div class="p-6 space-y-6 max-w-7xl mx-auto">
+
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-base-content">Panel de Administración</h1>
+      <p class="text-base-content/60 text-sm mt-1">Resumen general de InmueblesApp</p>
+    </div>
+    <button class="btn btn-outline btn-sm">Descargar Reporte</button>
+  </div>
+
+  <!-- Tarjetas de KPIs Globales -->
+  <div class="stats stats-vertical lg:stats-horizontal shadow w-full bg-base-200">
+    <div class="stat">
+      <div class="stat-figure text-success">
+        <!-- Icono de antena/transmisión en vivo -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      </div>
+      <div class="stat-title flex items-center gap-2">
+        Usuarios en línea
+        <!-- Punto verde parpadeante (Live Indicator) -->
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-success"></span>
+        </span>
+      </div>
+      <div class="stat-value text-success">142</div>
+      <div class="stat-desc">Visitando la app ahora mismo</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-primary"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+          class="inline-block w-8 h-8 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+          </path>
+        </svg></div>
+      <div class="stat-title">Usuarios Totales</div>
+      <div class="stat-value">4,200</div>
+      <div class="stat-desc">↗︎ 400 nuevos este mes</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-secondary"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+          class="inline-block w-8 h-8 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+          </path>
+        </svg></div>
+      <div class="stat-title">Inmuebles Activos</div>
+      <div class="stat-value">1,850</div>
+      <div class="stat-desc">1,200 Arriendo | 650 Venta</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-accent"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+          class="inline-block w-8 h-8 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+          </path>
+        </svg></div>
+      <div class="stat-title">Ingresos (Suscripciones)</div>
+      <div class="stat-value text-accent">$12.4M</div>
+      <div class="stat-desc text-success">↗︎ 8% crecimiento</div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Gráfico Tendencia de Ingresos -->
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-sm text-base-content/70">Tendencia de Ingresos (Mensual)</h2>
+        <!-- Aquí iría tu <canvas> de Chart.js. Esta es una representación visual simple. -->
+        <div class="relative h-40 mt-4 border-b border-l border-base-300 flex items-center justify-center">
+          <svg class="w-full h-full text-accent" viewBox="0 0 100 40" preserveAspectRatio="none">
+            <path d="M0 35 Q 20 20, 40 25 T 70 15 T 100 5 L 100 40 L 0 40 Z" class="fill-accent/20" />
+            <path d="M0 35 Q 20 20, 40 25 T 70 15 T 100 5" fill="none" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla: Últimos Usuarios Registrados -->
+    <div class="card bg-base-200 shadow-xl overflow-hidden">
+      <div class="card-body p-0">
+        <div class="p-6 pb-2">
+          <h2 class="card-title text-lg">Nuevos Agentes/Usuarios</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="table w-full">
+            <thead>
+              <tr class="text-base-content/70">
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-base-300 transition-colors">
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="avatar placeholder">
+                      <div class="bg-neutral text-neutral-content rounded-full w-8"><span>CM</span></div>
+                    </div>
+                    <div>
+                      <div class="font-bold">Carlos Mendoza</div>
+                      <div class="text-xs opacity-50">carlos&#64;email.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Agente</td>
+                <td>Hoy, 10:30 AM</td>
+                <td><span class="badge badge-success badge-sm badge-outline">Verificado</span></td>
+              </tr>
+              <tr class="hover:bg-base-300 transition-colors">
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="avatar placeholder">
+                      <div class="bg-primary text-primary-content rounded-full w-8"><span>LR</span></div>
+                    </div>
+                    <div>
+                      <div class="font-bold">Laura Rojas</div>
+                      <div class="text-xs opacity-50">laura&#64;email.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Propietario</td>
+                <td>Ayer</td>
+                <td><span class="badge badge-warning badge-sm badge-outline">Pendiente</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+}
+
+@if(isAgent) {
+<!-- agent-dashboard.component.html -->
+<div class="p-6 space-y-6 max-w-7xl mx-auto bg-base-100 min-h-screen">
+
+  <!-- Encabezado -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-base-content flex items-center gap-2">
+        Hola, Agente <span class="text-2xl">👋</span>
+      </h1>
+      <p class="text-sm text-base-content/60 mt-1">Aquí está tu resumen de actividades de hoy.</p>
+    </div>
+
+  </div>
+
+  <!-- 1. KPIs (Tarjetas Superiores) -->
+  <div class="stats shadow w-full bg-base-200">
+    <div class="stat">
+      <div class="stat-figure text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+      </div>
+      <div class="stat-title">Mis Propiedades</div>
+      <div class="stat-value text-primary">24</div>
+      <div class="stat-desc">4 arrendadas este mes</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+      </div>
+      <div class="stat-title">Visitas a anuncios</div>
+      <div class="stat-value text-secondary">1.2K</div>
+      <div class="stat-desc">↗︎ 14% más que el mes pasado</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-warning">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+      </div>
+      <div class="stat-title">Mensajes sin leer</div>
+      <div class="stat-value text-warning">5</div>
+      <div class="stat-desc font-medium">Requieren tu atención</div>
+    </div>
+  </div>
+
+  <!-- FILA MEDIA: Gráfico + Embudo (Opción 3) -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Gráfico de Visitas -->
+    <div class="card bg-base-200 shadow-xl col-span-1 lg:col-span-2">
+      <div class="card-body">
+        <h2 class="card-title text-sm text-base-content/70">Interacciones por mes</h2>
+        <!-- Aquí va tu <canvas> de Chart.js. Dejo la maqueta CSS por ahora -->
+        <div class="flex items-end gap-4 h-48 mt-4 border-b border-base-300 pb-2">
+          <div class="w-1/4 bg-primary/40 h-1/2 rounded-t-sm hover:bg-primary transition-colors cursor-pointer"></div>
+          <div class="w-1/4 bg-primary/60 h-3/4 rounded-t-sm hover:bg-primary transition-colors cursor-pointer"></div>
+          <div class="w-1/4 bg-primary/30 h-1/3 rounded-t-sm hover:bg-primary transition-colors cursor-pointer"></div>
+          <div class="w-1/4 bg-primary h-full rounded-t-sm hover:bg-primary transition-colors cursor-pointer relative"><span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-bold">310</span></div>
+        </div>
+        <div class="flex justify-between text-xs text-base-content/50 mt-2 font-medium">
+          <span>Enero</span><span>Febrero</span><span>Marzo</span><span>Abril</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Opción 3: Embudo de Conversión -->
+    <div class="card bg-base-200 shadow-xl col-span-1">
+      <div class="card-body">
+        <h2 class="card-title text-sm text-base-content/70">Embudo de Ventas / Arriendos</h2>
+        <div class="space-y-4 mt-2">
+          <div>
+            <div class="flex justify-between text-xs mb-1"><span>Nuevos Prospectos</span><span class="font-bold">45</span></div>
+            <progress class="progress progress-primary w-full" value="100" max="100"></progress>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1"><span>Citas Agendadas</span><span class="font-bold">18</span></div>
+            <progress class="progress progress-info w-full" value="40" max="100"></progress>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1"><span>En Negociación</span><span class="font-bold">5</span></div>
+            <progress class="progress progress-warning w-full" value="15" max="100"></progress>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1"><span>Contratos Cerrados</span><span class="font-bold text-success">2</span></div>
+            <progress class="progress progress-success w-full" value="5" max="100"></progress>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FILA INFERIOR: Citas + Mensajes + Top Inmuebles -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Opción 1: Próximas Citas (To-Do) -->
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body p-5">
+        <h2 class="card-title text-sm text-base-content/70 border-b border-base-300 pb-2 mb-2">📅 Citas de Hoy</h2>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3 p-2 hover:bg-base-300 rounded-lg transition-colors cursor-pointer">
+            <div class="bg-primary/20 text-primary rounded-lg p-2 text-center w-12 flex-shrink-0">
+              <div class="text-xs font-bold">10:00</div>
+              <div class="text-[10px] uppercase">AM</div>
+            </div>
+            <div>
+              <p class="font-bold text-sm">Mostrar Apto. Los Alpes</p>
+              <p class="text-xs text-base-content/60">Con Juan Pérez</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-3 p-2 hover:bg-base-300 rounded-lg transition-colors cursor-pointer">
+            <div class="bg-warning/20 text-warning rounded-lg p-2 text-center w-12 flex-shrink-0">
+              <div class="text-xs font-bold">3:30</div>
+              <div class="text-[10px] uppercase">PM</div>
+            </div>
+            <div>
+              <p class="font-bold text-sm">Firma de Contrato</p>
+              <p class="text-xs text-base-content/60">Local Centro Histórico</p>
+            </div>
+          </li>
+        </ul>
+        <button class="btn btn-ghost btn-sm w-full mt-2 text-xs">Ver Calendario Completo</button>
+      </div>
+    </div>
+
+    <!-- Opción 2: Últimos Mensajes -->
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body p-5">
+        <h2 class="card-title text-sm text-base-content/70 border-b border-base-300 pb-2 mb-2">💬 Mensajes Recientes</h2>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-2 hover:bg-base-300 rounded-lg transition-colors cursor-pointer relative">
+            <span class="absolute top-2 right-2 flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </span>
+            <div class="avatar placeholder">
+              <div class="bg-neutral text-neutral-content rounded-full w-10"><span>MG</span></div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-sm truncate">María Gómez</p>
+              <p class="text-xs text-base-content/60 truncate">Hola, ¿el apartamento aún está...</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 p-2 hover:bg-base-300 rounded-lg transition-colors cursor-pointer">
+            <div class="avatar placeholder">
+              <div class="bg-neutral text-neutral-content rounded-full w-10"><span>CR</span></div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-sm truncate">Carlos Ruiz</p>
+              <p class="text-xs text-base-content/60 truncate">Me interesa agendar una visita para...</p>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm w-full mt-2 text-xs">Ir a la Bandeja</button>
+      </div>
+    </div>
+
+    <!-- Opción 4: Top Inmuebles Más Visitados -->
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body p-5">
+        <h2 class="card-title text-sm text-base-content/70 border-b border-base-300 pb-2 mb-2">🏆 Top Inmuebles</h2>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-2 hover:bg-base-300 rounded-lg transition-colors">
+            <div class="text-2xl">🥇</div>
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-sm truncate">Casa Campestre Turbaco</p>
+              <div class="flex gap-2 mt-1">
+                <span class="badge badge-ghost badge-sm text-[10px]">👁️ 450 vistas</span>
+                <span class="badge badge-ghost badge-sm text-[10px]">❤️ 12 favs</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 p-2 hover:bg-base-300 rounded-lg transition-colors">
+            <div class="text-2xl opacity-80">🥈</div>
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-sm truncate">Apto. Los Alpes</p>
+              <div class="flex gap-2 mt-1">
+                <span class="badge badge-ghost badge-sm text-[10px]">👁️ 320 vistas</span>
+                <span class="badge badge-ghost badge-sm text-[10px]">❤️ 8 favs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm w-full mt-2 text-xs">Ver Estadísticas</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+}
