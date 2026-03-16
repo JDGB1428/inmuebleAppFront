@@ -28,12 +28,16 @@ export const adminRoutes:Routes = [
         path:'property/trashed',
         component:TrashPropertyPageComponent
       },
-      {
-        path:'property/:id',
-        component:PropertyShowPageComponent
-      },
       { path:'users',
         component: UserAdminPageComponent,
+      },
+      {
+        path:'property/show/:id',
+        component:PropertyShowPageComponent
+      },
+      {
+        path:'property/edit/:id',
+        component:ApartmentCreatePageComponent
       },
       {
         path:'profile',
