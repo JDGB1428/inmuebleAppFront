@@ -1,9 +1,9 @@
 import { CategoryAdapter } from "../interfaces/category.interfaces"
-import { CategoryDto } from "../interfaces/response-dto.interfaces"
+import { CategoryDTO } from "../interfaces/response-dto.interfaces"
 
 export class CategoryModel {
 
-  static mapHttpResponseCategoryToCategoryAdapter(data: CategoryDto): CategoryAdapter {
+  static mapHttpResponseCategoryToCategoryAdapter(data: CategoryDTO): CategoryAdapter {
     return {
       id: data.id,
       name: data.name,
@@ -11,7 +11,7 @@ export class CategoryModel {
     }
   }
 
-  static mapHttpReponseCategoryToCategoryAdapterArray( data: CategoryDto[]): CategoryAdapter[]{
+  static mapHttpReponseCategoryToCategoryAdapterArray( data: CategoryDTO[]): CategoryAdapter[]{
     return data.map(this.mapHttpResponseCategoryToCategoryAdapter)
   }
 }
