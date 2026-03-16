@@ -1,9 +1,8 @@
 import { PrivateLayoutComponent } from "./layouts/private-layout/private-layout.component";
-
-import { DepartmentPageComponent } from "./pages/department/department-page.component";
-
+import { PropertyPageComponent } from "./pages/property-page/property-page.component";
 import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
 import { Routes } from "@angular/router";
+import { ProfileClientPageComponent } from "./pages/profile-client-page/profile-client-page.component";
 
 export const InmueblesRoutes:Routes = [
   {
@@ -11,8 +10,12 @@ export const InmueblesRoutes:Routes = [
     component: PrivateLayoutComponent,
     children: [
       {
-        path: 'propiedades',
-        component: DepartmentPageComponent
+        path: 'home',
+        component: PropertyPageComponent
+      },
+      {
+        path:'profile',
+        component:ProfileClientPageComponent
       },
       {
         path: '**',
@@ -20,8 +23,8 @@ export const InmueblesRoutes:Routes = [
       },
       {
         path: '',
+        pathMatch: 'full',
         redirectTo: 'private/home',
-        pathMatch: 'full'
       }
     ],
 
