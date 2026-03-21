@@ -18,7 +18,6 @@ export class RegisterFormComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
-  private routes = inject(Router);
   private toastService = inject(ToastService)
 
   error = signal<HTTPErrorResponseCustom | null>(null);
@@ -28,7 +27,6 @@ export class RegisterFormComponent {
     email: [''],
     password: [''],
     password_confirmation: [''],
-    phone: [],
   })
 
 
@@ -38,10 +36,10 @@ export class RegisterFormComponent {
       const saveUser: UserAdapater = this.registerForm.value;
       this.authService.authRegister(saveUser).subscribe({
         next: (user) => {
-          const role = String(user.roles[0]);
+          const role = String(user.roles);
           this.registerForm.reset();
           this.authService.saveSession(user.token, user, false, role);
-          this.authService.redirectByRole([role]);
+          this.authService.redirectByRole(role);
           this.toastService.show('El usuario ha sido creado correctamente','success', 3000)
         },
         error: (err) => {
