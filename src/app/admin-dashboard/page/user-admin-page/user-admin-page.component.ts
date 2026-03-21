@@ -21,7 +21,6 @@ export class UserAdminPageComponent implements OnInit {
   listProfiles(){
     this.profileService.getProfiles().subscribe((profile) => {
       this.profiles.set(profile.active);
-      console.log(profile.active);
     })
   }
 
