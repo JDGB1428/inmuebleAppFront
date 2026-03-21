@@ -2,7 +2,7 @@
   <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content">
     <!-- Navbar -->
-    <navbar-drawer />
+    <shared-navbar/>
     <!-- Page content here -->
     <div class="p-3">
       <router-outlet />
@@ -16,15 +16,18 @@
       <ul class="menu w-full grow flex flex-col gap-y-5">
         <!-- List item -->
         <li>
-          <a [routerLink]="['/admin/dashboard/home']"  class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Inicio">
+          <a [routerLink]="['/admin/dashboard/home']" class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+            data-tip="Inicio">
             <!-- Home icon -->
-             <img [src]="['assets/images/inicio.svg']" class="w-10" alt="Icono de inicio">
+            <img [src]="['assets/images/inicio.svg']" class="w-10" alt="Icono de inicio">
             <span class="is-drawer-close:hidden">Inicio</span>
           </a>
         </li>
 
+        @if(isAdmin){
         <li>
-          <a [routerLink]="['/admin/dashboard/users']" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Usuarios">
+          <a [routerLink]="['/admin/dashboard/users']" class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+            data-tip="Usuarios">
             <!-- Home icon -->
             <img [src]="['assets/images/usuarios.svg']" class="w-10" alt="Icono de usuario">
             <span class="is-drawer-close:hidden">Gestion de usuarios</span>
@@ -32,7 +35,8 @@
         </li>
 
         <li>
-          <a [routerLink]="['/admin/dashboard/permissions']" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Permisos">
+          <a [routerLink]="['/admin/dashboard/permissions']"
+            class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Permisos">
             <!-- Home icon -->
             <img [src]="['assets/images/permisos.svg']" class="w-10" alt="Icono de permiso">
             <span class="is-drawer-close:hidden">Gestion de permisos</span>
@@ -40,42 +44,22 @@
         </li>
 
         <li>
-          <a [routerLink]="['/admin/dashboard/roles']" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Roles">
+          <a [routerLink]="['/admin/dashboard/roles']" class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+            data-tip="Roles">
             <!-- Home icon -->
             <img [src]="['assets/images/roles.svg']" class="w-10" alt="Icono de roles">
             <span class="is-drawer-close:hidden">Gestion de roles</span>
           </a>
         </li>
 
-        <li>
-          <a [routerLink]="['/admin/dashboard/apartments']" data-tip="Apartamentos">
-            <!-- Home icon -->
-            <img [src]="['assets/images/apartamento.svg']" class="w-10" alt="Icono de apartamento">
-            <span class="is-drawer-close:hidden">Gestion de apartamentos</span>
-          </a>
-        </li>
+        }
+
 
         <li>
-          <a [routerLink]="['/admin/dashboard/houses']" data-tip="Casas">
+          <a [routerLink]="['/admin/dashboard/property']" data-tip="Propiedad">
             <!-- Home icon -->
-            <img [src]="['assets/images/casa.svg']" class="w-10" alt="Icono de casa">
-            <span class="is-drawer-close:hidden">Gestion de casas</span>
-          </a>
-        </li>
-
-        <li>
-          <a [routerLink]="['/admin/dashboard/offices']" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Oficinas">
-            <!-- Home icon -->
-             <img [src]="['assets/images/oficina.svg']" class="w-10" alt="Icono de oficina">
-            <span class="is-drawer-close:hidden">Gestion de oficinas</span>
-          </a>
-        </li>
-
-        <li>
-          <a [routerLink]="['/admin/dashboard/lands']" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Terrenos">
-            <!-- Home icon -->
-             <img [src]="['assets/images/terreno.svg']" class="w-10" alt="Icono de terreno">
-            <span class="is-drawer-close:hidden">Gestion de terrenos</span>
+            <img [src]="['assets/images/apartamento.svg']" class="w-10" alt="Icono de propiedad">
+            <span class="is-drawer-close:hidden">Gestion de propiedades</span>
           </a>
         </li>
 
@@ -83,7 +67,7 @@
         <li>
           <button class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Configuracion">
             <!-- Settings icon -->
-           <img [src]="['assets/images/configuracion.svg']" class="w-10" alt="Icono de configuracion">
+            <img [src]="['assets/images/configuracion.svg']" class="w-10" alt="Icono de configuracion">
             <span class="is-drawer-close:hidden">Configuracion</span>
           </button>
         </li>
