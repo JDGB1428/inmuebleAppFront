@@ -3,128 +3,51 @@
     <!-- head -->
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Cargo</th>
+        <th>Phone</th>
+        <th>Acciones</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <!-- row 1 -->
+
+      @for (profile of profiles(); track profile.id) {
       <tr>
         <td>
           <div class="flex items-center gap-3">
             <div class="avatar">
               <div class="mask mask-squircle h-12 w-12">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                  alt="Avatar Tailwind CSS Component" />
+                <img [src]="profile.avatar" />
               </div>
             </div>
             <div>
-              <div class="font-bold">Hart Hagerty</div>
-              <div class="text-sm opacity-50">United States</div>
+              <div class="font-bold">{{profile.user.name}}</div>
             </div>
           </div>
         </td>
         <td>
-          Zemlak, Daniel and Leannon
-          <br />
-          <span class="badge badge-ghost badge-sm">Desktop Support Technician</span>
+          {{profile.user.email}}
         </td>
-        <td>Purple</td>
+        <td>
+          {{profile.jobTitle}}
+        </td>
+        <td>{{profile.phone}}</td>
         <th>
           <button class="btn btn-ghost btn-xs">details</button>
         </th>
       </tr>
-      <!-- row 2 -->
-      <tr>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle h-12 w-12">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/3@94.webp"
-                  alt="Avatar Tailwind CSS Component" />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">Brice Swyre</div>
-              <div class="text-sm opacity-50">China</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          Carroll Group
-          <br />
-          <span class="badge badge-ghost badge-sm">Tax Accountant</span>
-        </td>
-        <td>Red</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr>
-      <!-- row 3 -->
-      <tr>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle h-12 w-12">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/4@94.webp"
-                  alt="Avatar Tailwind CSS Component" />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">Marjy Ferencz</div>
-              <div class="text-sm opacity-50">Russia</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          Rowe-Schoen
-          <br />
-          <span class="badge badge-ghost badge-sm">Office Assistant I</span>
-        </td>
-        <td>Crimson</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr>
-      <!-- row 4 -->
-      <tr>
-        <td>
-          <div class="flex items-center gap-3">
-            <div class="avatar">
-              <div class="mask mask-squircle h-12 w-12">
-                <img
-                  src="https://img.daisyui.com/images/profile/demo/5@94.webp"
-                  alt="Avatar Tailwind CSS Component" />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">Yancy Tear</div>
-              <div class="text-sm opacity-50">Brazil</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          Wyman-Ledner
-          <br />
-          <span class="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-        </td>
-        <td>Indigo</td>
-        <th>
-          <button class="btn btn-ghost btn-xs">details</button>
-        </th>
-      </tr>
+      }
+
     </tbody>
     <!-- foot -->
     <tfoot>
       <tr>
-        <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Cargo</th>
+        <th>Celular</th>
         <th></th>
       </tr>
     </tfoot>
