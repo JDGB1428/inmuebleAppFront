@@ -1,0 +1,219 @@
+<div class="min-h-screen bg-base-100 pb-12">
+
+  <!-- SKELETON (Mientras carga) -->
+  @if (loading()) {
+    <shared-loading-show-property/>
+  }
+
+  <!-- CONTENIDO REAL -->
+  @else {
+  <div class="max-w-7xl mx-auto px-4 pt-6">
+
+    <!-- 1. Header (Título, Ubicación y Botones) -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold font-montserrat text-base-content">
+          {{property()?.title}}
+        </h1>
+        <div class="flex items-center gap-2 mt-2 text-base-content/70">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span class="text-lg">Cartagena, Bolívar, CO</span>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-ghost btn-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+        </button>
+
+        @if(isClient){
+        <button class="btn btn-ghost btn-circle group transition-colors duration-300 hover:bg-red-50"
+          (click)="toggleLike()" [disabled]="isLiking()">
+
+          @if (isliked()) {
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="size-6 text-red-500 fill-red-500">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+          </svg>
+          }
+
+
+          @else {
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-gray-500 group-hover:text-red-400 transition-colors" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          }
+        </button>
+        }
+
+        @if(isAgent){
+        <button class="btn btn-error btn-sm text-white" (click)="openDeleteConfirmation(property()?.id ?? 0)">
+          Eliminar
+        </button>
+        <a [routerLink]="['/admin/dashboard/property/edit/', property()?.id]" class="btn btn-warning btn-sm text-white">
+          Editar
+        </a>
+        }
+      </div>
+    </div>
+
+    <!-- 2. Galería de Imágenes (Estilo Bento Grid) -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:h-[50vh] mb-10">
+      <!-- Imagen Principal -->
+      <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-2xl">
+        <img [src]="property()?.image?.[0] || 'assets/images/image-default.png'" alt="Principal"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      </div>
+      <!-- Imágenes Secundarias -->
+      <div class="hidden md:block relative group overflow-hidden rounded-2xl">
+        <img [src]="property()?.image?.[1] || 'assets/images/image-default.png'" alt="Interior"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      </div>
+      <div class="hidden md:block relative group overflow-hidden rounded-2xl rounded-tr-2xl">
+        <img [src]="property()?.image?.[2] || 'assets/images/image-default.png'" alt="Vista"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      </div>
+      <div class="hidden md:block relative group overflow-hidden rounded-2xl">
+        <img [src]="property()?.image?.[3] || 'assets/images/image-default.png'" alt="Baño"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      </div>
+      <div class="hidden md:block relative group overflow-hidden rounded-2xl rounded-br-2xl">
+        <img [src]="property()?.image?.[4] || 'assets/images/image-default.png'" alt="Cuarto"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <!-- Botón Ver todas las fotos -->
+        <div
+          class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+          <span class="text-white font-bold text-lg">Ver todas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Layout de Contenido (Dos columnas) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+      <!-- Columna Izquierda (Info de la propiedad) -->
+      <div class="lg:col-span-2 space-y-8">
+
+        <!-- Características principales (Tags) -->
+        <div class="flex flex-wrap gap-4 py-4 border-b border-base-300">
+          <div class="flex items-center gap-2 bg-base-200 px-4 py-2 rounded-xl">
+            <img src="assets/images/room.svg" alt="Habitaciones" class="w-6 h-6">
+            <span class="font-bold">{{property()?.room}} Habitaciones</span>
+          </div>
+          <div class="flex items-center gap-2 bg-base-200 px-4 py-2 rounded-xl">
+            <img src="assets/images/bathroom.svg" alt="Baños" class="w-6 h-6">
+            <span class="font-bold">{{property()?.bathrooms}} Baños</span>
+          </div>
+          <div class="flex items-center gap-2 bg-base-200 px-4 py-2 rounded-xl">
+            <img src="assets/images/M2.svg" alt="Área" class="w-6 h-6">
+            <span class="font-bold">{{property()?.area_m2}} m²</span>
+          </div>
+        </div>
+
+        <!-- Descripción -->
+        <div>
+          <h2 class="text-2xl font-bold font-montserrat mb-4">Acerca de esta propiedad</h2>
+          <p class="text-base-content/80 leading-relaxed text-lg">
+            {{property()?.description}}
+          </p>
+        </div>
+
+        <!-- Amenidades (Ejemplo estático, puedes dinamizarlo) -->
+        <!-- Amenidades Dinámicas -->
+        <div>
+          <h2 class="text-2xl font-bold font-montserrat mb-4">Lo que ofrece este lugar</h2>
+
+          @if (getActiveFeatures().length > 0) {
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-8">
+
+            <!-- Ciclo que itera sobre los features activos ya traducidos -->
+            @for (feature of getActiveFeatures(); track feature) {
+            <div class="flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-lg text-base-content/80">{{ feature }}</span>
+            </div>
+            }
+
+          </div>
+          } @else {
+          <p class="text-base-content/60 italic">No hay amenidades registradas para esta propiedad.</p>
+          }
+        </div>
+
+        <comentary-client/>
+
+      </div>
+
+      <!-- Columna Derecha (Card de Precio / Sticky) -->
+      <div class="lg:col-span-1 relative">
+        <div class="sticky top-24 card bg-base-100 shadow-xl border border-base-200">
+          <div class="card-body">
+            <h3 class="text-xl font-bold font-montserrat text-base-content/70">Precio desde</h3>
+            <p class="text-4xl font-bold text-primary mb-4">
+              {{property()?.price | currency:'COP':'symbol-narrow':'1.0-0'}}
+            </p>
+
+            <div class="divider mt-0"></div>
+
+            <div class="space-y-4 mb-6">
+              @if(property()?.features?.administration){
+              <div class="flex justify-between">
+                <span class="text-base-content/70">Administración estimada</span>
+                <!-- Le agregamos el Currency Pipe para que se vea como moneda ($ 4,765,745) -->
+                <span class="font-semibold">{{property()?.features?.administration |
+                  currency:'COP':'symbol-narrow':'1.0-0'}}</span>
+              </div>
+              }
+
+              <div class="flex justify-between">
+                <span class="text-base-content/70">Estado</span>
+
+                <!-- Usamos [ngClass] para inyectar el color devuelto por la función -->
+                <div class="badge gap-2 text-white" [ngClass]="getBadgeColor(property()?.state)">
+
+                  <!-- Usamos la función traductora para que el usuario no lea "sold" sino "Vendido" -->
+                  {{ translateState(property()?.state) }}
+
+                </div>
+              </div>
+            </div>
+
+            @if(isClient){
+            <div class="card-actions flex-col gap-3">
+              <button class="btn btn-primary w-full text-lg">Contactar Asesor</button>
+              <button class="btn btn-outline btn-primary w-full text-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                WhatsApp
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  }
+</div>
+
+<shared-confirm-modal #deleteModal title="Eliminar Inmueble"
+  [message]="'Estas seguro que quieres eliminar este inmueble'" [confirmText]="'Si, eliminar'" [cancelText]="'Cancelar'"
+  (confirm)="destroyProperty()" />
