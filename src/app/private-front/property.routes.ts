@@ -3,6 +3,7 @@ import { PropertyPageComponent } from "./pages/property-page/property-page.compo
 import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
 import { Routes } from "@angular/router";
 import { ProfileClientPageComponent } from "./pages/profile-client-page/profile-client-page.component";
+import { PropertyShowPageComponent } from "../admin-dashboard/page/property-show-page/property-show-page.component";
 
 export const InmueblesRoutes:Routes = [
   {
@@ -16,6 +17,10 @@ export const InmueblesRoutes:Routes = [
       {
         path:'profile',
         component:ProfileClientPageComponent
+      },
+      {
+        path:'home/show/:id',
+        component:PropertyShowPageComponent
       },
       {
         path: '**',
