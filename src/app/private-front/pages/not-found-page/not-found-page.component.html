@@ -1,1 +1,32 @@
-<p>not-found-page works!</p>
+<div class="hero min-h-screen">
+  <div class="hero-content text-center">
+    <div class="max-w-md">
+      <h1 class="text-9xl font-black text-primary drop-shadow-lg">404</h1>
+      <h2 class="text-4xl font-bold mt-6">¡Ups! Página no encontrada</h2>
+      <p class="py-6 text-base-content/80">
+        Lo sentimos, la ruta a la que intentas acceder no existe, ha sido eliminada o su nombre ha cambiado.
+      </p>
+
+      @if(isAdmin() || isAgent()){
+      <a class="btn btn-primary" [routerLink]="['/admin/dashboard/home']">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        Volver al inicio
+      </a>
+      }
+
+      @if(isClient()){
+        <a class="btn btn-primary" [routerLink]="['/private/home']">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+        Volver al inicio
+      </a>
+      }
+
+    </div>
+  </div>
+</div>
