@@ -1,0 +1,38 @@
+<div class="card bg-base-100 shadow-sm">
+  <figure>
+    <img [src]="[properties().image[0]]" alt="Shoes" class="w-full h-64 object-cover" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title text-2xl font-montserrat">{{properties().title}}</h2>
+    <div class="flex gap-3 items-center">
+      <span>
+        <p class="font-bold font-montserrat">Unidades desde:</p>
+      </span>
+      <span>
+        <img [src]="['assets/images/bathroom.svg']" alt="icono de baño" class="w-8 h-8">
+        <p class="text-center font-bold">{{properties().bathrooms}} Baños</p>
+      </span>
+      <span>
+        <img [src]="['assets/images/room.svg']" alt="icono de cuarto" class="w-8 h-8">
+        <p class="text-center font-bold ">{{properties().room}} Habs.</p>
+      </span>
+      <span>
+        <img [src]="['assets/images/M2.svg']" alt="icono de metro cuadros" srcset="" class="w-8 h-8">
+        <p  class="text-center font-bold ">{{properties().area_m2}} </p>
+      </span>
+    </div>
+
+    <p class="font-bold text-xl font-montserrat ">Desde de {{properties().price | currency:'COP':'code'}}</p>
+    <div class="card-actions justify-end">
+      @if (isAgent() || isAdmin()) {
+        <a [routerLink]="['show', properties().id]" class="link link-primary">Ver mas</a>
+      }
+
+      @if(isClient()){
+        <a class="link link-primary" [routerLink]="['show', properties().id]">
+        Ver mas
+      </a>
+      }
+    </div>
+  </div>
+</div>
