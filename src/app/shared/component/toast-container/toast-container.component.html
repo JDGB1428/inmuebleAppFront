@@ -2,7 +2,7 @@
 
   @for (toast of toastService.toasts(); track toast.id) {
     <div
-      class="alert shadow-lg min-w-[300px] cursor-pointer pointer-events-auto transition-all
+      class="alert shadow-lg min-w-75 cursor-pointer pointer-events-auto transition-all
              relative overflow-hidden border-0"
       [class.alert-info]="toast.type === 'info'"
       [class.alert-success]="toast.type === 'success'"
