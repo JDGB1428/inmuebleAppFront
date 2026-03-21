@@ -17,7 +17,6 @@ export class LoginFormComponent {
   private authService = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
   private toastService = inject(ToastService);
-  private routes = inject(Router)
 
   error = signal<HTTPErrorResponseCustom | null>(null);
 
@@ -32,10 +31,10 @@ export class LoginFormComponent {
       const { rememberMe } = this.loginForm.value;
       this.authService.authLogin(this.loginForm.value).subscribe({
         next: (user) => {
-          const role = String(user.roles[0]);
+          const role = String(user.roles);
           this.loginForm.reset();
           this.authService.saveSession(user.token, user, rememberMe, role);
-          this.authService.redirectByRole([role]);
+          this.authService.redirectByRole(role);
           this.toastService.show('El usuario a iniciado sesion correctamente', 'success', 3000)
         },
         error: (err) => {
