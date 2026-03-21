@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal, } from '@angular/core';
 import { FormPropertyComponent } from "../../component/form-property/form-property.component";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-apartment-create-page',
@@ -7,5 +8,17 @@ import { FormPropertyComponent } from "../../component/form-property/form-proper
   templateUrl: './apartment-create-page.component.html',
 })
 export class ApartmentCreatePageComponent {
+  private readonly activatedRoute = inject(ActivatedRoute);
+  propertyId = signal<number|null>(null);
 
+  constructor(){
+    this.getPropertyById();
+  }
+
+  getPropertyById() {
+      this.activatedRoute.params.subscribe((params) => {
+        this.propertyId.set(params['id']);
+      })
+
+    }
 }
