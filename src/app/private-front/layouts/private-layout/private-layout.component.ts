@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
+import { Navbar } from "../../../shared/component/navbar/navbar.component";
 
 @Component({
   selector: 'app-private-layout',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, Navbar],
   templateUrl: './private-layout.component.html',
 })
 export class PrivateLayoutComponent {
