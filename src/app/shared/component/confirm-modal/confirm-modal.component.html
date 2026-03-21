@@ -1,0 +1,31 @@
+<dialog #dialogModal class="modal">
+  <div class="modal-box">
+
+    <!-- Icono de Advertencia -->
+    <div class="flex justify-center mb-4 text-error">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    </div>
+
+    <!-- Textos Dinámicos -->
+    <h3 class="font-bold text-xl text-center">{{ title() }}</h3>
+    <p class="py-4 text-center text-base-content/70">{{ message() }}</p>
+
+    <!-- Botones -->
+    <div class="modal-action justify-center gap-4">
+      <form method="dialog">
+        <!-- Cierra nativamente sin hacer nada -->
+        <button class="btn btn-ghost w-24">{{ cancelText() }}</button>
+      </form>
+      <button class="btn btn-error w-auto min-w-[6rem] px-4 text-white" (click)="onConfirmClick()">
+        {{ confirmText() }}
+      </button>
+    </div>
+
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button>cerrar</button>
+  </form>
+</dialog>
