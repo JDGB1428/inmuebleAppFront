@@ -13,4 +13,20 @@ export interface Property {
   user_id: number;
   updated_at: Date;
   created_at: Date;
+  deleted_at?: Date | null;
+  features: Features
+}
+
+
+export interface Features {
+  patio?: boolean;
+  terrace?: boolean;
+  pool?: boolean;
+  gated_community?: boolean;
+  security_24_7?: boolean;
+  bbq_zone?: boolean;
+  balcony?: boolean;
+  gym?: boolean;
+  parking?: boolean;
+  administration?: number;
 }
