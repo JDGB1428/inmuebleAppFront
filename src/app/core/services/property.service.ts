@@ -78,10 +78,10 @@ export class PropertyServices {
   }
 
   toggleLike(id: number) {
-    return this.http.post<{ message: string, is_liked: boolean }>(`${this.apiUrl}/properties/${id}/like`, {}).pipe(
-      tap((response)=>{
-        console.log(response);
-      })
-    );
+    return this.http.post<{ message: string, is_liked: boolean }>(`${this.apiUrl}/api/property/${id}/like`, {property_id : id});
+  }
+
+  loadUserLikes() {
+    return this.http.get<{ data: number[] }>(`${this.apiUrl}/api/user/likes`);
   }
 }
