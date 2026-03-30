@@ -104,7 +104,6 @@ export class AuthService {
   }
 
   redirectByRole(roles: string) {
-    // Lo simplifiqué para que reciba un String (ya que guardas 'roles' como string en saveSession)
     if (roles === 'admin' || roles === 'agent') {
       this.routes.navigate(['/admin/dashboard/home']);
     } else if (roles === 'client') {
@@ -112,9 +111,7 @@ export class AuthService {
     }
   }
 
-  // ==========================================
-  // MÉTODOS PRIVADOS DE INICIALIZACIÓN
-  // ==========================================
+
 
   private getInitialToken(): string {
     return sessionStorage.getItem('token') || localStorage.getItem('token') || '';
