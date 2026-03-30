@@ -50,7 +50,11 @@ export class PropertyShowPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPropertyById();
-    this.loadLikes();
+
+    if(this.isClient){
+      this.loadLikes();
+    }
+
   }
 
   private readonly featureTranslations: Record<string, string> = {
@@ -124,17 +128,11 @@ export class PropertyShowPageComponent implements OnInit {
 
   this.propertyService.toggleLike(currentProperty.id).subscribe({
     next: (response) => {
-      // ✅ 1. ACTUALIZAR EL SIGNAL DEL ARREGLO (En lugar del objeto property)
       if (response.is_liked) {
         this.likedProperty.update(ids => [...ids, currentProperty.id]);
       } else {
-        // Si el backend dice false, sacamos el ID de la propiedad del array
         this.likedProperty.update(ids => ids.filter(id => id !== currentProperty.id));
       }
-
-      // ✅ 2. Notificamos al usuario usando tu ToastService
-      const mensaje = response.is_liked ? 'Like agregado' : 'Like eliminado';
-      this.toastService.show(mensaje, 'success', 2000);
 
       this.isLiking.set(false);
     },
