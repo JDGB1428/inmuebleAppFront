@@ -154,8 +154,9 @@
           }
         </div>
 
-        <comentary-client/>
-
+        @if (isClient) {
+          <comentary-client/>
+        }
       </div>
 
       <!-- Columna Derecha (Card de Precio / Sticky) -->
