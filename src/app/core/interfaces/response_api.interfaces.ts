@@ -70,6 +70,16 @@ export interface AuthUser {
   profile: UserProfileData | null;
 }
 
+export interface Commentary {
+  id:          number;
+  name:        string;
+  avatar:      string;
+  description: string;
+  created_at:  Date;
+}
+
+
+
 
 
 
