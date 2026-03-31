@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   templateUrl: './data-table.component.html',
 })
 export class DataTableComponent {
-  data = input.required<Property[]>();
+  data = input.required<any[]>();
   emptyTitle = input<string>('No hay registros');
   emptyMessage = input<string>('La lista está vacía actualmente.');
   showSearch = input<boolean>(true);
@@ -42,9 +42,14 @@ export class DataTableComponent {
 
     if (!term || keys.length === 0) return sourceData;
 
+    const getNestedValue = (obj: any, path: string) => {
+      return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+    };
+
+
     return sourceData.filter((item: any) => {
       return keys.some(key => {
-        const val = item[key];
+        const val = getNestedValue(item, key);
         return val ? String(val).toLowerCase().includes(term) : false;
       });
     });
