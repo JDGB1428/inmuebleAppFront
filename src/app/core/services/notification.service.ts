@@ -2,14 +2,50 @@ import { Injectable, NgZone, inject, signal } from '@angular/core';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-private echo!: Echo<any>;
+  private echo!: Echo<any>;
   private ngZone = inject(NgZone);
+  private readonly apiUrl = environment.LaravelAPI
+  private readonly http = inject(HttpClient);
   public notifications = signal<any[]>([]);
+
+
+  public fetchUnreadNotificationsFromDB(): void {
+    this.http.get<any[]>(`${this.apiUrl}/api/notifications/unread`).subscribe({
+      next: (dbNotifications) => {
+        const mappedData = dbNotifications.map(notif => notif.data);
+        this.notifications.set(mappedData);
+      },
+      error: (err) => console.error('Error cargando notificaciones:', err)
+    });
+  }
+
+  public markAsReadInDB(): void {
+    this.http.post(`${environment.LaravelAPI}/api/notifications/mark-read`, {}).subscribe({
+      next: () => {
+        this.notifications.set([]); // Limpiamos la campanita localmente
+      }
+    });
+  }
+
+  public markPropertyAsRead(propertyId: number): void {
+    this.http.post(`${environment.LaravelAPI}/api/notifications/${propertyId}/mark-read`, {})
+      .subscribe({
+        next: () => {
+          this.notifications.update(current =>
+            current.filter(notif => notif.property_id !== propertyId)
+          );
+        }
+
+      });
+
+
+  }
 
   public listenForProperties(userId: number): void {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
@@ -71,9 +107,10 @@ private echo!: Echo<any>;
     // ESCUCHAR EL NUEVO NOMBRE DEL EVENTO (Importante el punto inicial)
     channel.listen('.PropertyCreatedEvent', (notification: any) => {
       this.ngZone.run(() => {
-        console.log('¡Nuevo inmueble recibido en canal privado!', notification);
         const data = notification.data || notification;
-        this.notifications.update(current => [data, ...current]);
+
+        const newNotif = { notif_id: `temporal-${data.property_id}`, ...data };
+        this.notifications.update(current => [newNotif, ...current]);
       });
     });
   }
