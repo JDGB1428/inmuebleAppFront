@@ -1,0 +1,76 @@
+<div class="bg-base-100 shadow-xl rounded-2xl border border-base-200 overflow-hidden">
+  @if (showSearch()) {
+  <div class="p-5 border-b border-base-200 bg-base-100/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div class="text-sm text-base-content/60 font-medium">
+      Mostrando <span class="text-base-content font-bold">{{ filteredData().length }}</span> registros
+    </div>
+
+
+    <div class="relative w-full sm:w-80 group">
+
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <svg xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 text-base-content/40 group-focus-within:text-primary transition-colors" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+
+      <input #searchInput type="text" placeholder="Buscar..."
+        class="input input-bordered w-full pl-10 pr-10 bg-base-200/50 focus:bg-base-100 focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all rounded-xl"
+        [value]="rawSearchTerm()" (input)="rawSearchTerm.set(searchInput.value)" />
+
+
+      @if (rawSearchTerm()) {
+      <button
+        class="absolute inset-y-0 right-0 pr-3 flex items-center text-base-content/40 hover:text-error transition-colors"
+        (click)="clearSearch()" title="Limpiar búsqueda">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      }
+    </div>
+
+  </div>
+  }
+
+  <div class="overflow-x-auto">
+    <table class="table table-zebra w-full">
+      <thead class="bg-base-200/50 text-base-content uppercase text-sm">
+        @if (headerTemplate()) {
+        <ng-container *ngTemplateOutlet="headerTemplate()!"></ng-container>
+        }
+      </thead>
+
+      <tbody>
+        @for (item of filteredData(); track $index) {
+        <tr class="hover:bg-base-200/30 transition-colors">
+          @if (bodyTemplate()) {
+          <ng-container *ngTemplateOutlet="bodyTemplate()!; context: { $implicit: item }"></ng-container>
+          }
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    @if (filteredData().length === 0) {
+    <div class="flex flex-col items-center justify-center py-16 text-center">
+      <div class="bg-base-200 p-4 rounded-full mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-base-content/40" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </div>
+      <h3 class="font-bold text-lg text-base-content/70">
+        {{ data().length > 0 ? 'Sin resultados' : emptyTitle() }}
+      </h3>
+      <p class="text-sm text-base-content/50">
+        {{ data().length > 0 ? 'No se encontraron coincidencias para tu búsqueda.' : emptyMessage() }}
+      </p>
+    </div>
+    }
+  </div>
+</div>

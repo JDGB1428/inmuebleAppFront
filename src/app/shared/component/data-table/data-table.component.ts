@@ -1,0 +1,57 @@
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, computed, contentChild, effect, input, signal, TemplateRef } from '@angular/core';
+import { Property } from '../../../core/interfaces/property.interfaces';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+
+@Component({
+  selector: 'app-data-table',
+  imports: [NgTemplateOutlet],
+  templateUrl: './data-table.component.html',
+})
+export class DataTableComponent {
+  data = input.required<Property[]>();
+  emptyTitle = input<string>('No hay registros');
+  emptyMessage = input<string>('La lista está vacía actualmente.');
+  showSearch = input<boolean>(true);
+  searchKeys = input<string[]>([]);
+  debounceDelay = input<number>(300);
+
+  headerTemplate = contentChild<TemplateRef<any>>('header');
+  bodyTemplate = contentChild<TemplateRef<any>>('body');
+  rawSearchTerm = signal<string>('');
+  activeSearchTerm = signal<string>('');
+
+
+  constructor() {
+    effect((onCleanup) => {
+      const currentTerm = this.rawSearchTerm();
+      const timer = setTimeout(() => {
+        this.activeSearchTerm.set(currentTerm);
+      }, this.debounceDelay());
+      onCleanup(() => clearTimeout(timer));
+    });
+  }
+
+
+
+  filteredData = computed(() => {
+    const term = this.activeSearchTerm().toLowerCase();
+    const sourceData = this.data();
+    const keys = this.searchKeys();
+
+    if (!term || keys.length === 0) return sourceData;
+
+    return sourceData.filter((item: any) => {
+      return keys.some(key => {
+        const val = item[key];
+        return val ? String(val).toLowerCase().includes(term) : false;
+      });
+    });
+  });
+
+
+  clearSearch() {
+    this.rawSearchTerm.set('');
+  }
+}
