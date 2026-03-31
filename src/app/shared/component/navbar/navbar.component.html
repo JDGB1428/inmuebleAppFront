@@ -89,7 +89,7 @@
       </div>
       <ul tabindex="-1" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
         <li><a routerLink="/private/home" routerLinkActive="active">Propiedades</a></li>
-        <li><a routerLink="/private/oficinas">Oficina</a></li>
+        <li><a routerLink="/private/oficinas">Mis favoritos</a></li>
         <li><a routerLink="/private/terrenos">Terreno</a></li>
       </ul>
     </div>
@@ -118,7 +118,7 @@
 
     @if(isClient) {
     <div class="dropdown dropdown-end">
-      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle" #notifDropdown>
         <div class="indicator">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -146,9 +146,10 @@
           <ul class="max-h-64 overflow-y-auto block p-0">
             @for (notif of notifications(); track notif.property_id) {
             <li class="w-full">
-              <a class="flex flex-col items-start gap-1 w-full whitespace-normal">
+              <a class="flex flex-col items-start gap-1 w-full whitespace-normal" (click)="goToProperty(notif.property_id)">
+                <span class="font-bold text-xs">{{ notif.name }}</span>
                 <span class="font-bold text-xs">{{ notif.title }}</span>
-                <span class="text-xs text-gray-500 line-clamp-2">{{ notif.address }}</span>
+                <span class="text-xs text-gray-500 line-clamp-2">{{ notif.direction }}</span>
               </a>
             </li>
             } @empty {
