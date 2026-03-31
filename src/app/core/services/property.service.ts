@@ -81,7 +81,13 @@ export class PropertyServices {
     return this.http.post<{ message: string, is_liked: boolean }>(`${this.apiUrl}/api/property/${id}/like`, {property_id : id});
   }
 
-  loadUserLikes() {
-    return this.http.get<{ data: number[] }>(`${this.apiUrl}/api/user/likes`);
+  loadUserLikes():Observable<HttpResponseProperty<Property[]>>  {
+    return this.http.get<HttpResponseProperty<PropertyDTO[]>>(`${this.apiUrl}/api/user/likes`).pipe(
+      map((response) => PropertyModel.mapToHttpResponsePropertyToListProperties(response)),
+      catchError(() => of({
+        message: 'Error al cargar propiedades',
+        data: []
+      }))
+    )
   }
 }
