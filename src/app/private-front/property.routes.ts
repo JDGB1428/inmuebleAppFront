@@ -4,6 +4,7 @@ import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.com
 import { Routes } from "@angular/router";
 import { ProfileClientPageComponent } from "./pages/profile-client-page/profile-client-page.component";
 import { PropertyShowPageComponent } from "../admin-dashboard/page/property-show-page/property-show-page.component";
+import { FavoritePagesComponent } from "./pages/favorite-pages/favorite-pages.component";
 
 export const InmueblesRoutes:Routes = [
   {
@@ -19,7 +20,15 @@ export const InmueblesRoutes:Routes = [
         component:ProfileClientPageComponent
       },
       {
+        path:'favoritos',
+        component:FavoritePagesComponent
+      },
+      {
         path:'home/show/:id',
+        component:PropertyShowPageComponent
+      },
+      {
+        path:'favoritos/show/:id',
         component:PropertyShowPageComponent
       },
       {
