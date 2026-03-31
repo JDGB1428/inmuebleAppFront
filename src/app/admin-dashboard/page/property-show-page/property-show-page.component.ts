@@ -13,7 +13,7 @@ import { ComentaryClient } from "../../../private-front/components/comentary-cli
 @Component({
   selector: 'app-property-show-page',
   templateUrl: './property-show-page.component.html',
-  imports: [CurrencyPipe, ConfirmModalComponent, NgClass, RouterLink, LoadingShowPropertyComponent,ComentaryClient]
+  imports: [CurrencyPipe, ConfirmModalComponent, NgClass, RouterLink, LoadingShowPropertyComponent, ComentaryClient]
 })
 export class PropertyShowPageComponent implements OnInit {
   loading = signal<boolean>(true);
@@ -32,7 +32,7 @@ export class PropertyShowPageComponent implements OnInit {
 
   property = signal<Property | null>(null);
   propertyIdDelete = signal<Property['id']>(0);
-  likedProperty = signal<number[]>([]);
+  likedProperty = signal<Property[]>([]);
 
   id = this.activatedRoute.snapshot.params['id'];
 
@@ -41,9 +41,9 @@ export class PropertyShowPageComponent implements OnInit {
   isliked = computed(() => {
     const currentProperty = this.property();
 
-    if(!currentProperty) return false;
+    if (!currentProperty) return false;
 
-    return this.likedProperty().includes(currentProperty.id);
+    return this.likedProperty().some(liked => liked.id === currentProperty.id);
   })
 
   @ViewChild('deleteModal') deleteModal!: ConfirmModalComponent
@@ -51,7 +51,7 @@ export class PropertyShowPageComponent implements OnInit {
   ngOnInit(): void {
     this.getPropertyById();
 
-    if(this.isClient){
+    if (this.isClient) {
       this.loadLikes();
     }
 
@@ -119,29 +119,31 @@ export class PropertyShowPageComponent implements OnInit {
 
   // --- NUEVO MÉTODO PARA EL LIKE ---
   toggleLike() {
-  const currentProperty = this.property();
+    const currentProperty = this.property();
 
-  // Validamos que la propiedad exista antes de enviar
-  if (!currentProperty || !currentProperty.id) return;
+    // Validamos que la propiedad exista antes de enviar
+    if (!currentProperty || !currentProperty.id) return;
 
-  this.isLiking.set(true);
+    this.isLiking.set(true);
 
-  this.propertyService.toggleLike(currentProperty.id).subscribe({
-    next: (response) => {
-      if (response.is_liked) {
-        this.likedProperty.update(ids => [...ids, currentProperty.id]);
-      } else {
-        this.likedProperty.update(ids => ids.filter(id => id !== currentProperty.id));
+    this.propertyService.toggleLike(currentProperty.id).subscribe({
+      next: (response) => {
+        if (response.is_liked) {
+          // Agregamos el objeto completo de la propiedad al array
+          this.likedProperty.update(properties => [...properties, currentProperty]);
+        } else {
+          // Filtramos excluyendo el objeto que tenga este ID
+          this.likedProperty.update(properties => properties.filter(prop => prop.id !== currentProperty.id));
+        }
+
+        this.isLiking.set(false);
+      },
+      error: (err) => {
+        this.toastService.show('Error al dar like. ¿Iniciaste sesión?', 'error', 3000);
+        this.isLiking.set(false);
       }
-
-      this.isLiking.set(false);
-    },
-    error: (err) => {
-      this.toastService.show('Error al dar like. ¿Iniciaste sesión?', 'error', 3000);
-      this.isLiking.set(false);
-    }
-  });
-}
+    });
+  }
 
   // ---------------------------------
 
