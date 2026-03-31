@@ -4,8 +4,10 @@
   <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
     <div>
       <h2 class="text-2xl font-bold text-base-content flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-error" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
         </svg>
         Papelera de Inmuebles
       </h2>
@@ -18,93 +20,71 @@
     </div>
   </div>
 
-  <!-- Contenedor de la Tabla -->
-  <div class="bg-base-100 shadow-xl rounded-2xl border border-base-200 overflow-hidden">
-    <div class="overflow-x-auto">
 
-      <!-- Tabla de DaisyUI -->
-      <table class="table table-zebra w-full">
+  <!-- Asumiendo que trashedProperties es una Signal, se pasa ejecutándola () -->
+  <app-data-table
+    [data]="trashedProperties()"
+    emptyTitle="Papelera Vacía"
+    [searchKeys]="['title', 'direction']"
+    emptyMessage="No hay inmuebles eliminados actualmente.">
 
-        <!-- Cabecera de la tabla -->
-        <thead class="bg-base-200/50 text-base-content uppercase text-sm">
-          <tr>
-            <th>ID</th>
-            <th>Inmueble</th>
-            <th>Categoría</th>
-            <th>Precio</th>
-            <th>Fecha de Eliminación</th>
-            <th class="text-right">Acciones</th>
-          </tr>
-        </thead>
+    <!-- CABECERA -->
+    <ng-template #header>
+      <tr>
+        <th>ID</th>
+        <th>Inmueble</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Fecha de Eliminación</th>
+        <th class="text-right">Acciones</th>
+      </tr>
+    </ng-template>
 
-        <tbody>
-          <!-- Iteramos sobre las propiedades eliminadas -->
-          @for (property of trashedProperties(); track property.id) {
-            <tr class="hover:bg-base-200/30 transition-colors">
+    <!-- FILAS (let-property captura el $implicit) -->
+    <ng-template #body let-property>
+      <td class="font-medium text-base-content/50">#{{ property.id }}</td>
 
-              <td class="font-medium text-base-content/50">#{{ property.id }}</td>
+      <td>
+        <div class="flex items-center gap-3">
+          <div class="avatar">
+            <div class="mask mask-squircle w-12 h-12 bg-base-300">
+              <img [src]="property?.image?.[0] || 'assets/no-image.png'" alt="Inmueble" class="object-cover" />
+            </div>
+          </div>
+          <div>
+            <div class="font-bold truncate max-w-xs" [title]="property.title">{{ property.title }}</div>
+            <div class="text-xs text-base-content/60 truncate max-w-xs">{{ property.direction }}</div>
+          </div>
+        </div>
+      </td>
 
-              <!-- Información Principal -->
-              <td>
-                <div class="flex items-center gap-3">
-                  <!-- Imagen miniatura -->
-                  <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12 bg-base-300">
-                      <img [src]="property?.image?.[0] || 'assets/no-image.png'" alt="Inmueble" class="object-cover" />
-                    </div>
-                  </div>
-                  <!-- Título y Dirección -->
-                  <div>
-                    <div class="font-bold truncate max-w-xs" [title]="property.title">{{ property.title }}</div>
-                    <div class="text-xs text-base-content/60 truncate max-w-xs">{{ property.direction }}</div>
-                  </div>
-                </div>
-              </td>
+      <td>
+        <span class="badge badge-ghost badge-sm">{{ property.category_id }}</span>
+      </td>
 
-              <!-- Categoría -->
-              <td>
-                <span class="badge badge-ghost badge-sm">
-                  <!-- Ajusta esto según cómo traigas el nombre de la categoría -->
-                  {{ property.category_id }}
-                </span>
-              </td>
+      <td class="font-semibold text-primary">
+        {{ property.price | currency:'COP':'symbol-narrow':'1.0-0' }}
+      </td>
 
-              <!-- Precio -->
-              <td class="font-semibold text-primary">
-                {{ property.price | currency:'COP':'symbol-narrow':'1.0-0' }}
-              </td>
+      <td>
+        <div class="flex items-center gap-1 text-sm text-error font-medium">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {{ property.deleted_at | date:'dd/MM/yyyy, HH:mm' }}
+        </div>
+      </td>
 
-              <!-- Fecha de Borrado (Soft Delete) -->
-              <td>
-                <div class="flex items-center gap-1 text-sm text-error font-medium">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <!-- Asumiendo que configuraste tu DTO para transformar deleted_at a un Date -->
-                  {{ property.deleted_at | date:'dd/MM/yyyy, HH:mm' }}
-                </div>
-              </td>
+      <td class="text-right">
+        <button class="btn btn-sm btn-success text-white" (click)="openRestoreConfirmation(property.id)"
+          title="Restaurar Inmueble">
+          Restaurar
+        </button>
+      </td>
+    </ng-template>
 
-              <!-- Botones de Acción -->
-              <td class="text-right">
-                <button
-                  class="btn btn-sm btn-success text-white"
-                  (click)="openRestoreConfirmation(property.id)"
-                  title="Restaurar Inmueble">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                  </svg>
-                  Restaurar
-                </button>
-              </td>
-
-            </tr>
-          }
-        </tbody>
-      </table>
-
-      <!-- Estado Vacío (Si no hay propiedades en la papelera) -->
-      @if (trashedProperties().length === 0) {
+     @if (trashedProperties().length === 0) {
         <div class="flex flex-col items-center justify-center py-16 text-center">
           <div class="bg-base-200 p-4 rounded-full mb-3">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-base-content/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -116,17 +96,12 @@
         </div>
       }
 
-    </div>
-  </div>
+  </app-data-table>
 
   <!-- Nuestro Componente Modal Reutilizable -->
-  <shared-confirm-modal
-    #restoreModal
-    title="¿Restaurar Inmueble?"
-    message="Este inmueble saldrá de la papelera y volverá a ser visible en el sistema."
-    confirmText="Sí, restaurar"
-    cancelText="Cancelar"
-    (confirm)="executeRestore()"/>
+  <shared-confirm-modal #restoreModal title="¿Restaurar Inmueble?"
+    message="Este inmueble saldrá de la papelera y volverá a ser visible en el sistema." confirmText="Sí, restaurar"
+    cancelText="Cancelar" (confirm)="executeRestore()" />
 
 
 </div>
