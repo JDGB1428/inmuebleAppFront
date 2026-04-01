@@ -1,0 +1,276 @@
+<div class="max-w-5xl mx-auto p-4">
+
+  <div class="bg-base-100 shadow-xl rounded-2xl border border-base-200 overflow-hidden">
+    <!-- Encabezado del Formulario -->
+    <div class="bg-primary/10 px-6 py-4 border-b border-base-200">
+      <h2 class="text-2xl font-bold text-primary">
+        <!-- AGREGAR PARÉNTESIS A isEditMode() -->
+        @if(isEditMode()) { Editar Inmueble } @else { Registrar Nuevo Inmueble }
+      </h2>
+      <p class="text-sm text-base-content/70">
+        @if(isEditMode()) { Modifica los datos del inmueble. } @else { Completa la información detallada. }
+      </p>
+    </div>
+
+    <!-- Formulario -->
+    <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="p-6 space-y-8">
+
+      <!-- SECCIÓN 1: Información Básica -->
+      <fieldset class="space-y-4">
+        <legend class="text-lg font-semibold border-b border-base-200 pb-2 w-full mb-4">Información Principal</legend>
+
+        <!-- Título y Dirección (Grid 2 columnas) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Título del Anuncio</span></label>
+            <input type="text" formControlName="title" placeholder="Ej: Apartamento con vista al mar"
+              class="input input-bordered w-full focus:input-primary transition-colors">
+            <error-form [control]="propertyForm.get('title')" />
+          </div>
+
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Dirección Completa</span></label>
+            <input type="text" formControlName="direction" placeholder="Ej: Calle 47 # 12-34, Bocagrande"
+              class="input input-bordered w-full focus:input-primary transition-colors">
+            <error-form [control]="propertyForm.get('direction')" />
+          </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="flex flex-col w-full mt-4">
+          <label class="label justify-start">
+            <span class="label-text font-medium">Descripción del Inmueble</span>
+          </label>
+          <textarea formControlName="description" placeholder="Describe los beneficios, ubicación y detalles..."
+            class="textarea textarea-bordered w-full h-32 focus:textarea-primary transition-colors"></textarea>
+          <error-form [control]="propertyForm.get('description')" />
+        </div>
+      </fieldset>
+
+
+      <!-- SECCIÓN 2: Detalles y Clasificación -->
+      <fieldset class="space-y-4">
+        <legend class="text-lg font-semibold border-b border-base-200 pb-2 w-full mb-4">Detalles y Clasificación
+        </legend>
+
+        <!-- Precio, Categoría, Estado (Grid 3 columnas) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Precio (COP)</span></label>
+            <label
+              class="input input-bordered flex items-center gap-2 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+              <span class="text-base-content/50">$</span>
+              <input type="number" formControlName="price" class="grow" placeholder="0.00" />
+            </label>
+            <error-form [control]="propertyForm.get('price')" />
+          </div>
+
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Categoría</span></label>
+            <select formControlName="category_id" class="select select-bordered w-full focus:select-primary">
+              <option value="" disabled selected>Seleccione...</option>
+              @for (cat of categories; track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+              }
+            </select>
+            <error-form [control]="propertyForm.get('category_id')" />
+          </div>
+
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Estado actual</span></label>
+            <select formControlName="state" class="select select-bordered w-full focus:select-primary">
+              @for (st of states; track st.value) {
+              <option [value]="st.value">{{ st.label }}</option>
+              }
+            </select>
+            <error-form [control]="propertyForm.get('state')" />
+          </div>
+        </div>
+
+        <!-- Habitaciones, Área, Baños (Grid 3 columnas) -->
+        <div class="grid grid-cols-3 gap-6 pt-2">
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Área (m²)</span></label>
+            <input type="number" formControlName="area_m2" placeholder="0"
+              class="input input-bordered w-full focus:input-primary">
+            <error-form [control]="propertyForm.get('area_m2')" />
+          </div>
+
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Habitaciones</span></label>
+            <input type="number" formControlName="room" placeholder="0"
+              class="input input-bordered w-full focus:input-primary">
+            <error-form [control]="propertyForm.get('room')" />
+          </div>
+
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Baños</span></label>
+            <input type="number" formControlName="bathrooms" placeholder="0"
+              class="input input-bordered w-full focus:input-primary">
+            <error-form [control]="propertyForm.get('bathrooms')" />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- SECCIÓN DINÁMICA DE CARACTERÍSTICAS (FEATURES) -->
+      <div formGroupName="features">
+
+        <!-- Ahora sí, hacemos las validaciones visuales -->
+        @if (selectedCategoryName === 'Apartamento' || selectedCategoryName === 'Casa') {
+        <fieldset class="p-5 border border-primary/20 bg-primary/5 rounded-xl transition-all duration-300">
+          <legend class="text-primary font-bold px-2">Amenidades del {{ selectedCategoryName }}</legend>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+
+            <!-- Features de Apartamento -->
+            @if (selectedCategoryName === 'Apartamento') {
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="pool" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Piscina</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="bbq_zone" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Zona BBQ</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="balcony" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Balcón</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="security_24_7" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Seguridad 24/7</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="gym" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Gimnasio</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="parking" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Parqueadero</span>
+            </label>
+
+            <div class="col-span-3">
+              <label class="label"><span class="label-text font-medium">Adminstracion(COP)</span></label>
+              <label
+                class="input input-bordered flex items-center gap-2 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+                <span class="text-base-content/50">$</span>
+                <input type="number" formControlName="administration" class="grow" placeholder="0.00" />
+              </label>
+              <error-form [control]="propertyForm.get('adminstration')" />
+            </div>
+
+            }
+
+            <!-- Features de Casa -->
+            @if (selectedCategoryName === 'Casa') {
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="patio" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Patio</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="terrace" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Terraza</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="pool" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Piscina</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="gated_community" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Conj. Cerrado</span>
+            </label>
+            <label
+              class="cursor-pointer label justify-start gap-3 bg-base-100 p-2 rounded-lg border border-base-200 hover:border-primary/50 transition-colors">
+              <input type="checkbox" formControlName="security_24_7" class="checkbox checkbox-primary checkbox-sm" />
+              <span class="label-text">Seguridad 24/7</span>
+            </label>
+            }
+          </div>
+        </fieldset>
+        }
+      </div>
+
+      <!-- SECCIÓN 3: Galería de Imágenes -->
+            <!-- SECCIÓN 3: Galería de Imágenes -->
+      <fieldset class="space-y-4">
+        <legend class="text-lg font-semibold border-b border-base-200 pb-2 w-full mb-4">Galería Fotográfica</legend>
+
+        <!-- Dropzone UI Moderno -->
+        <div class="w-full">
+          <label
+            class="flex flex-col items-center justify-center w-full h-40 border-2 border-primary/30 border-dashed rounded-xl cursor-pointer bg-base-200/50 hover:bg-base-200 transition-colors group">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <!-- Icono SVG de Nube -->
+              <svg class="w-10 h-10 mb-3 text-primary/60 group-hover:text-primary transition-colors" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+              <p class="mb-2 text-sm text-base-content/70"><span class="font-bold text-primary">Haz clic para
+                  subir</span> o arrastra y suelta</p>
+              <p class="text-xs text-base-content/50">PNG, JPG, JPEG (Max. múltiples archivos)</p>
+            </div>
+            <input #fileInput class="hidden" type="file" multiple accept="image/*"
+              (change)="onFileChange($event, fileInput)" />
+          </label>
+        </div>
+
+        <!-- Previsualización de imágenes con Botón de Eliminar -->
+        @if (imagePreviews.length > 0) {
+        <div class="bg-base-200/30 p-4 rounded-xl border border-base-200">
+          <h4 class="text-sm font-medium mb-3 text-base-content/70">
+            Imágenes seleccionadas ({{ imagePreviews.length }})
+          </h4>
+          <div class="flex flex-wrap gap-3">
+            @for (img of imagePreviews; track $index) {
+            <div class="relative w-24 h-24 rounded-lg overflow-hidden shadow-sm group">
+
+              <!-- Imagen -->
+              <img [src]="img"
+                class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110">
+
+              <!-- Capa oscura con botón X (visible en hover) -->
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <!-- Botón eliminar. IMPORTANTE: type="button" -->
+                <button type="button" (click)="removeImage($index)"
+                        class="btn btn-circle btn-error btn-sm text-white shadow-lg hover:scale-110 transition-transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+            </div>
+            }
+          </div>
+        </div>
+        }
+      </fieldset>
+
+
+      <!-- Botón de Envío -->
+      <div class="pt-6 border-t border-base-200 flex justify-end">
+        <button type="submit" [disabled]="!propertyForm.valid"
+          class="btn btn-primary btn-wide shadow-lg shadow-primary/30">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+          </svg>
+          Publicar Inmueble
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
