@@ -3,6 +3,13 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "@shared/*": ["./src/app/shared/*"],
+      "@interfaces/*":["./src/app/core/interfaces/*"],
+      "@services/*":["./src/app/core/services/*"],
+      "@profile/*":["./src/app/profile/*"],
+      "@property/*":["./src/app/property/*"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
