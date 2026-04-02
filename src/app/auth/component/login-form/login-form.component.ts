@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, computed, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Router, RouterLink } from "@angular/router";
-import { AuthService } from '../../../core/services/auth.service';
-import { HTTPErrorResponseCustom } from '../../../core/interfaces/auth-error.interfaces';
+import { AuthService } from '@services/auth.service';
+import { HTTPErrorResponseCustom } from '@interfaces/auth-error.interfaces';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorFormComponent } from '../error-form/error-form.component';
-import { ToastService } from '../../../core/services/toast.service';
+import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'login-form',

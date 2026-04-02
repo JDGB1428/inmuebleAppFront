@@ -1,13 +1,13 @@
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectorRef, Component, effect, inject, input, OnInit, signal } from '@angular/core';
-import { PropertyServices } from '../../../core/services/property.service';
+import { PropertyServices } from '@services/property.service';
 import { ErrorFormComponent } from "../../../auth/component/error-form/error-form.component";
-import { CategoryServices } from '../../../core/services/category.service';
-import { CategoryAdapter } from '../../../core/interfaces/category.interfaces';
-import { ToastService } from '../../../core/services/toast.service';
+import { CategoryServices } from '@services/category.service';
+import { CategoryAdapter } from '@interfaces/category.interfaces';
+import { ToastService } from '@services/toast.service';
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HTTPErrorResponseCustom } from '../../../core/interfaces/auth-error.interfaces';
+import { HTTPErrorResponseCustom } from '@interfaces/auth-error.interfaces';
 
 
 interface States {

@@ -1,8 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, contentChild, effect, input, signal, TemplateRef } from '@angular/core';
-import { Property } from '../../../core/interfaces/property.interfaces';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-data-table',

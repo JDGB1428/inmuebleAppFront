@@ -2,10 +2,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { CardPropertyComponent } from "../../../property/component/card-property/card-property.component";
-import { PropertyServices } from '../../../core/services/property.service';
-import { Property } from '../../../core/interfaces/property.interfaces';
+import { PropertyServices } from '@services/property.service';
+import { Property } from '@interfaces/property.interfaces';
 import { LoadingCardComponent } from "../../../shared/component/loading-card/loading-card.component";
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-apartment-page',

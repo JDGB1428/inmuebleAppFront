@@ -1,8 +1,8 @@
-import { AuthUserResponseDTO, ProfileResponseDTO, SingleProfileResponseDTO } from './../interfaces/response-dto.interfaces';
+import { AuthUserResponseDTO, ProfileResponseDTO, SingleProfileResponseDTO } from '@interfaces/response-dto.interfaces';
 // model/profile.mapper.ts
 
-import { ProfileGroupsResponse,} from "../interfaces/response-dto.interfaces";
-import { AuthUser, Profile, ProfileGroups, UserProfileData } from "../interfaces/response_api.interfaces";
+import { ProfileGroupsResponse,} from "@interfaces/response-dto.interfaces";
+import { AuthUser, Profile, ProfileGroups, UserProfileData } from "@interfaces/response_api.interfaces";
 
 export class ProfileMapper {
 

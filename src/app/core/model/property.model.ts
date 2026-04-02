@@ -1,6 +1,6 @@
-import { HttpResponseProperty } from "../interfaces/http-reponses.interfaces";
-import { Property, Features } from "../interfaces/property.interfaces";
-import { PropertyDTO, FeaturesDTO } from "../interfaces/response-dto.interfaces";
+import { HttpResponseProperty } from "@interfaces/http-reponses.interfaces";
+import { Property, Features } from "@interfaces/property.interfaces";
+import { PropertyDTO, FeaturesDTO } from "@interfaces/response-dto.interfaces";
 
 export class PropertyModel {
 

@@ -1,10 +1,10 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '@services/auth.service';
 import { DatePipe } from '@angular/common';
-import { ProfileService } from '../../../core/services/profile.service';
+import { ProfileService } from '@services/profile.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommentaryService } from '../../../core/services/commentary.service';
-import { Commentary } from '../../../core/interfaces/response_api.interfaces';
+import { CommentaryService } from '@services/commentary.service';
+import { Commentary } from '@interfaces/response_api.interfaces';
 
 @Component({
   selector: 'comentary-client',

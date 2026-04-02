@@ -1,10 +1,10 @@
 import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '@services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
-import { ProfileService } from '../../../core/services/profile.service';
-import { AuthUser, AuthUserApiResponse, Profile } from '../../../core/interfaces/response_api.interfaces';
-import { NotificationService } from '../../../core/services/notification.service';
+import { ProfileService } from '@services/profile.service';
+import { AuthUser} from '@interfaces/response_api.interfaces';
+import { NotificationService } from '@services/notification.service';
 
 @Component({
   selector: 'shared-navbar',

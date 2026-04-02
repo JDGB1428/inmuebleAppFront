@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { CardPropertyComponent } from "../../../property/component/card-property/card-property.component";
-import { LoadingCardComponent } from "../../../shared/component/loading-card/loading-card.component";
-import { Property } from '../../../core/interfaces/property.interfaces';
-import { PropertyServices } from '../../../core/services/property.service';
+import { CardPropertyComponent } from "@property/component/card-property/card-property.component";
+import { LoadingCardComponent } from "@shared/component/loading-card/loading-card.component";
+import { Property } from '@interfaces/property.interfaces';
+import { PropertyServices } from '@services/property.service';
 
 
 @Component({

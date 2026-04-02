@@ -1,5 +1,5 @@
 import { Component, inject, signal, } from '@angular/core';
-import { FormPropertyComponent } from "../../component/form-property/form-property.component";
+import { FormPropertyComponent } from "@property/component/form-property/form-property.component";
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

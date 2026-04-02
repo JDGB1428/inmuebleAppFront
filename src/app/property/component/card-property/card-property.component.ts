@@ -1,8 +1,8 @@
 import { Component, inject, input } from '@angular/core';
-import { Property } from '../../../core/interfaces/property.interfaces';
+import { Property } from '@interfaces/property.interfaces';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from "@angular/router";
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'card-property',

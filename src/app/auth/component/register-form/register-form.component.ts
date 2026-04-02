@@ -1,12 +1,12 @@
-import { Router, RouterLink, Routes } from '@angular/router';
-import { ChangeDetectorRef, Component, computed, inject, signal } from '@angular/core';
+import { RouterLink,} from '@angular/router';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '@services/auth.service';
 import { ErrorFormComponent } from "../error-form/error-form.component";
 import { HttpErrorResponse } from '@angular/common/http';
-import { HTTPErrorResponseCustom } from '../../../core/interfaces/auth-error.interfaces';
-import { ToastService } from '../../../core/services/toast.service';
-import { UserAdapater } from '../../../core/interfaces/user.interfaces';
+import { HTTPErrorResponseCustom } from '@interfaces/auth-error.interfaces';
+import { ToastService } from '@services/toast.service';
+import { UserAdapater } from '@interfaces/user.interfaces';
 
 @Component({
   selector: 'register-form',

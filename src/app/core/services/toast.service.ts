@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 export type ToastType = 'info' | 'success' | 'warning' | 'error';
 

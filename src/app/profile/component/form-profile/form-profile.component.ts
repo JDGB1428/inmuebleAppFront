@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
-import { ProfileService } from '../../../core/services/profile.service';
-import { ToastService } from '../../../core/services/toast.service';
+import { AuthService } from '@services/auth.service';
+import { ProfileService } from '@services/profile.service';
+import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'form-profile',

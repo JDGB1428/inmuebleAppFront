@@ -1,10 +1,10 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
-import { ToastService } from '../../../core/services/toast.service';
-import { PropertyServices } from '../../../core/services/property.service';
-import { Property } from '../../../core/interfaces/property.interfaces';
-import { ConfirmModalComponent } from '../../../shared/component/confirm-modal/confirm-modal.component';
+import { ToastService } from '@services/toast.service';
+import { PropertyServices } from '@services/property.service';
+import { Property } from '@interfaces/property.interfaces';
+import { ConfirmModalComponent } from '@shared/component/confirm-modal/confirm-modal.component';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { DataTableComponent } from "../../../shared/component/data-table/data-table.component";
+import { DataTableComponent } from "@shared/component/data-table/data-table.component";
 
 @Component({
   selector: 'app-trash-property-page',
