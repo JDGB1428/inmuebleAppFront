@@ -27,6 +27,7 @@ export interface Profile {
   id: number;
   userId: number;
   address: string;
+  nationality: string;
   avatar: string;
   phone: string;
   whatsapp: string;
@@ -53,6 +54,7 @@ export interface UserProfileData {
   id: number;
   userId: number;
   address: string;
+  nationality: string;
   avatar: string;
   phone: string;
   whatsapp: string;

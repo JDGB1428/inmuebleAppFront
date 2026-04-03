@@ -48,6 +48,7 @@ export type ProfileResponseDTO = {
   id: number;
   user_id: number;
   address: string;
+  nationality: string;
   avatar: string;
   phone: string;
   whatsapp: string;
@@ -74,6 +75,7 @@ export type SingleProfileResponseDTO = {
   id: number;
   user_id: number;
   address: string;
+  nationality: string;
   avatar: string;
   phone: string;
   whatsapp: string;
