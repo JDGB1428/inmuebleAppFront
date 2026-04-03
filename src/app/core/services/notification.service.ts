@@ -105,11 +105,11 @@ export class NotificationService {
     const channel = this.echo.private(`App.Models.User.${userId}`);
 
     // ESCUCHAR EL NUEVO NOMBRE DEL EVENTO (Importante el punto inicial)
-    channel.listen('.PropertyCreatedEvent', (notification: any) => {
+    channel.notification((notification: any) => {
       this.ngZone.run(() => {
-        const data = notification.data || notification;
+        const payload = notification.data ? notification.data : notification;
 
-        const newNotif = { notif_id: `temporal-${data.property_id}`, ...data };
+        const newNotif = { notif_id: `temporal-${payload.property_id}`, ...payload };
         this.notifications.update(current => [newNotif, ...current]);
       });
     });
