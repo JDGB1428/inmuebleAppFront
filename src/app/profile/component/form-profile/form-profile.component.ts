@@ -27,10 +27,11 @@ export class FormProfileComponent implements OnInit {
     this.profileForm = this.fb.group({
       fullName: ['', Validators.required],
       phone: ['', Validators.required],
-      whatsapp: [''],
-      address: [''],
+      whatsapp: ['', Validators.required],
+      address: ['', Validators.required],
+      nationality: ['', Validators.required],
       jobTitle: ['', Validators.required],
-      experience: [''],
+      experience: ['', Validators.required],
 
       // Controles para specialties
       spec_sales: [true],
@@ -39,9 +40,9 @@ export class FormProfileComponent implements OnInit {
       spec_luxury: [false],
 
       // Controles para socialLinks
-      facebook: [''],
-      instagram: [''],
-      linkedin: ['']
+      facebook: ['', Validators.required],
+      instagram: ['', Validators.required],
+      linkedin: ['', Validators.required]
     });
   }
 
