@@ -37,7 +37,6 @@ export class PropertyShowPageComponent implements OnInit {
   id = this.activatedRoute.snapshot.params['id'];
 
 
-  //Computed para dar check de que el usuario ya dio like
   isliked = computed(() => {
     const currentProperty = this.property();
 
