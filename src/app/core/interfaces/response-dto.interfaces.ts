@@ -51,6 +51,7 @@ export type ProfileResponseDTO = {
   nationality: string;
   avatar: string;
   phone: string;
+  license_number: string
   whatsapp: string;
   job_title: string | null;
   years_of_experience: number | null;
@@ -78,6 +79,7 @@ export type SingleProfileResponseDTO = {
   nationality: string;
   avatar: string;
   phone: string;
+  license_number: string
   whatsapp: string;
   job_title: string | null;
   years_of_experience: number | null;

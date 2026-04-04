@@ -30,6 +30,7 @@ export interface Profile {
   nationality: string;
   avatar: string;
   phone: string;
+  license_number: string;
   whatsapp: string;
   jobTitle: string;        // Quitamos el null para simplificar el HTML
   yearsOfExperience: number | null;
@@ -57,6 +58,7 @@ export interface UserProfileData {
   nationality: string;
   avatar: string;
   phone: string;
+  license_number: string,
   whatsapp: string;
   jobTitle: string;
   yearsOfExperience: number | null;
