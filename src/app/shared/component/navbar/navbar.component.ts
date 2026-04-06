@@ -19,6 +19,7 @@ export class Navbar implements OnInit {
   private readonly notificationService = inject(NotificationService);
   private location = inject(Location);
 
+  user = this.authService.currentUser();
   isClient = this.authService.isClient();
   isAgent = this.authService.isAgent();
   isAdmin = this.authService.isAdmin();
@@ -40,7 +41,7 @@ export class Navbar implements OnInit {
 
 
   getProfile(): void {
-    this.profileService.getProfileById().subscribe((profile) => {
+    this.profileService.getProfileById(this.user?.id ?? 0).subscribe((profile) => {
       this.profiles.set(profile);
     })
   }
