@@ -1,1 +1,11 @@
-<p>search works!</p>
+<div class="mb-4 mt-4 flex gap-2">
+  <input
+    type="text"
+    #searchInput
+    placeholder="Buscar por título o dirección..."
+    class="input input-bordered w-full max-w-xs"
+    (keyup)="onSearchInput(searchInput.value)"
+  />
+</div>
+
+
