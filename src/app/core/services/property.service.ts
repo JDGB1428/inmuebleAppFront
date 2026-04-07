@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { PropertyModel } from '../model/property.model';
 import { PropertyDTO } from '../interfaces/response-dto.interfaces';
@@ -17,6 +17,31 @@ export class PropertyServices {
 
   getAllProperty(): Observable<HttpResponseProperty<Property[]>> {
     return this.http.get<HttpResponseProperty<PropertyDTO[]>>(`${this.apiUrl}/api/property`).pipe(
+      map((response) => PropertyModel.mapToHttpResponsePropertyToListProperties(response)),
+      catchError(() => of({
+        message: 'Error al cargar propiedades',
+        data: []
+      }))
+    )
+  }
+
+  searchProperty(searchTerm:string):Observable<HttpResponseProperty<Property[]>>{
+
+    return this.http.get<HttpResponseProperty<PropertyDTO[]>>(`${this.apiUrl}/api/property/search`,{
+      params: { search: searchTerm},
+    }).pipe(
+      map((response) => PropertyModel.mapToHttpResponsePropertyToListProperties(response)),
+      catchError(() => of({
+        message: 'Error al cargar propiedades',
+        data: []
+      }))
+    )
+  }
+
+  filterProperty(categoryId:number){
+    return this.http.get<HttpResponseProperty<PropertyDTO[]>>(`${this.apiUrl}/api/property/filter`, {
+      params: {category_id: categoryId}
+    }).pipe(
       map((response) => PropertyModel.mapToHttpResponsePropertyToListProperties(response)),
       catchError(() => of({
         message: 'Error al cargar propiedades',
