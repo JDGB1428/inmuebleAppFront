@@ -95,7 +95,6 @@ export class AuthService {
   }
 
   getToken(): string {
-    // Es mejor leer directamente del signal si la app ya está corriendo
     return this.tokenSignal();
   }
 
