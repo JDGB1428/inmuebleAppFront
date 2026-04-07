@@ -144,6 +144,7 @@
         }
 
         <!-- SECCIÓN 3: REDES SOCIALES -->
+        @if(isAgent){
         <fieldset class="space-y-4">
           <legend class="text-lg font-semibold border-b border-base-200 pb-2 w-full mb-4">Redes Sociales</legend>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -167,6 +168,8 @@
             </div>
           </div>
         </fieldset>
+        }
+
 
         <div class="pt-6 border-t border-base-200 flex justify-end">
           <button type="submit" class="btn btn-primary min-w-48 shadow-lg shadow-primary/30"
