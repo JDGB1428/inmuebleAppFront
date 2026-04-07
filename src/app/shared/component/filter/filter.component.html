@@ -1,1 +1,20 @@
-<p>filter works!</p>
+<div class="flex flex-wrap gap-2 mb-4 mt-4">
+  <button
+    class="btn"
+    [class.btn-primary]="activeCategoryId() === 0"
+    (click)="applyFilter(0)">
+    Todas
+  </button>
+  <button
+    class="btn"
+    [class.btn-primary]="activeCategoryId() === 1"
+    (click)="applyFilter(1)">
+    Casas
+  </button>
+  <button
+    class="btn"
+    [class.btn-primary]="activeCategoryId() === 2"
+    (click)="applyFilter(2)">
+    Apartamentos
+  </button>
+</div>
