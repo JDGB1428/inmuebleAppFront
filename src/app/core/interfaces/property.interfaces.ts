@@ -4,6 +4,8 @@ export interface Property {
   description: string;
   price: number;
   direction: string;
+  city: string,
+  country:string,
   room: number;
   area_m2: number;
   bathrooms: number;

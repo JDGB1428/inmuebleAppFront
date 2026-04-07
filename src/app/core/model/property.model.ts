@@ -16,6 +16,8 @@ export class PropertyModel {
       area_m2: Number(dto.area_m2),
       bathrooms: Number(dto.bathrooms),
       state: dto.state,
+      city: dto.city,
+      country:dto.country,
       category_id: Number(dto.category_id),
       image: this.parseImages(dto.image),
       user_id: dto.user_id,

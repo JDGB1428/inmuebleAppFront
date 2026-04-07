@@ -9,6 +9,8 @@ export type PropertyDTO = {
   area_m2: string | number;
   bathrooms: string | number;
   state: string;
+  city: string,
+  country:string,
   category_id: string | number;
   image: string[] | string | null;
   user_id: number;
