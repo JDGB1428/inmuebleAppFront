@@ -56,7 +56,7 @@
         </td>
         <td>{{profile.phone}}</td>
         <td>
-          <button class="btn btn-ghost btn-xs">details</button>
+          <a class="btn btn-ghost btn-xs"[routerLink]="['show', profile.user.id]">details</a>
         </td>
     </ng-template>
 
