@@ -18,7 +18,6 @@ import { ComentaryClient } from "../../../private-front/components/comentary-cli
 export class PropertyShowPageComponent implements OnInit {
   loading = signal<boolean>(true);
 
-  // Nueva señal para prevenir múltiples clics mientras carga el Like
   isLiking = signal<boolean>(false);
 
   private readonly propertyService = inject(PropertyServices);
