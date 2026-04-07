@@ -1,59 +1,59 @@
 import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
-import { AuthService } from '@services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthService } from '@services/auth.service';
 import { ProfileService } from '@services/profile.service';
-import { AuthUser} from '@interfaces/response_api.interfaces';
 import { NotificationService } from '@services/notification.service';
+import { AuthUser } from '@interfaces/response_api.interfaces';
 
 @Component({
   selector: 'shared-navbar',
   imports: [RouterLink],
   templateUrl: './navbar.component.html',
 })
-
 export class Navbar implements OnInit {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly profileService = inject(ProfileService);
   private readonly notificationService = inject(NotificationService);
-  private location = inject(Location);
+  private readonly location = inject(Location);
 
-  user = this.authService.currentUser();
-  isClient = this.authService.isClient();
-  isAgent = this.authService.isAgent();
-  isAdmin = this.authService.isAdmin();
+  user = computed(() => this.authService.currentUser());
+  isClient = computed(() => this.authService.isClient());
+  isAgent = computed(() => this.authService.isAgent());
+  isAdmin = computed(() => this.authService.isAdmin());
+
   profiles = signal<AuthUser | null>(null);
 
   notifications = this.notificationService.notifications;
   unreadCount = computed(() => this.notifications().length);
 
+  // 4. ViewChild moderno
   dropdownElement = viewChild<ElementRef<HTMLDivElement>>('notifDropdown');
 
   ngOnInit(): void {
-
-
-    if (this.isClient || this.isAdmin || this.isAgent) {
+    if (this.isClient() || this.isAdmin() || this.isAgent()) {
       this.getProfile();
       this.initNotifications();
     }
   }
 
-
   getProfile(): void {
-    this.profileService.getProfileById(this.user?.id ?? 0).subscribe((profile) => {
-      this.profiles.set(profile);
-    })
+    const currentUser = this.user();
+    if (!currentUser?.id) return;
+
+    this.profileService.getProfileById(currentUser.id).subscribe({
+      next: (profile) => this.profiles.set(profile),
+      error: (err) => console.error('Error cargando perfil:', err)
+    });
   }
 
-
   initNotifications(): void {
-    const user = this.authService.currentUser();
-    const isClientRole = this.authService.isClient();
+    const currentUser = this.user();
 
-    if (user && isClientRole) {
+    if (currentUser?.id && this.isClient()) {
       this.notificationService.fetchUnreadNotificationsFromDB();
-      this.notificationService.listenForProperties(user.id);
+      this.notificationService.listenForProperties(currentUser.id);
     }
   }
 
@@ -61,20 +61,20 @@ export class Navbar implements OnInit {
     this.notificationService.markAsReadInDB();
   }
 
-
-
   logout(): void {
-    this.authService.authLogout().subscribe(() => {
-      this.location.back();
+    this.authService.authLogout().subscribe({
+      next: () => {
+        this.profiles.set(null);
+        this.location.back();
+      },
+      error: (err) => console.error('Error al cerrar sesión:', err)
     });
   }
 
-
   goToProperty(propertyId: number): void {
-
     this.notificationService.markPropertyAsRead(propertyId);
     this.router.navigate(['/private/home/show', propertyId]);
+    // Cierra el dropdown de DaisyUI quitando el foco del botón
     this.dropdownElement()?.nativeElement.blur();
   }
-
 }
