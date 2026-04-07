@@ -1,14 +1,22 @@
+<shared-search
+  (searchChange)="onSearchInput($event)"
+/>
+
+<shared-filter
+  [activeCategoryId]="activeCategoryId()"
+  (categoryChange)="applyFilter($event)"
+/>
+
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-3">
-
   @if (loading()) {
-  @for (card of loadingCards; track $index) {
-  <shared-loading-card />
-  }
+    @for (card of loadingCards; track $index) {
+      <shared-loading-card />
+    }
   }
 
-  @if(!loading()){
-  @for (property of properties(); track property.id) {
-  <card-property [properties]="property" />
-  }
+  @if (!loading()) {
+    @for (property of properties(); track property.id) {
+      <card-property [properties]="property" />
+    }
   }
 </div>
