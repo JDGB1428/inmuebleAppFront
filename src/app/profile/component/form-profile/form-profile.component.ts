@@ -133,6 +133,10 @@ export class FormProfileComponent implements OnInit {
       this.profileForm.get('spec_rent')?.disable();
       this.profileForm.get('spec_commercial')?.disable();
       this.profileForm.get('spec_luxury')?.disable();
+
+      this.profileForm.get('instagram')?.disable();
+      this.profileForm.get('facebook')?.disable();
+      this.profileForm.get('linkedin')?.disable();
     }
   }
 
