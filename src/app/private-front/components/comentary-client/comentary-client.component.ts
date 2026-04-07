@@ -20,13 +20,11 @@ export class ComentaryClient implements OnInit {
   avatar = signal<string | undefined>('');
   isClient = this.authService.isClient();
   commentary = signal<Commentary[]>([]);
-
   propertyId = input.required<number>();
-
-
+  user = this.authService.currentUser
 
   ngOnInit(): void {
-    this.profileService.getProfileById().subscribe({
+    this.profileService.getProfileById(this.user()?.id ?? 0).subscribe({
       next: (profile) => {
         this.avatar.set(profile.profile?.avatar)
       }
