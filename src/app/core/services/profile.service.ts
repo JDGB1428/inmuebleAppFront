@@ -26,8 +26,8 @@ export class ProfileService {
     );
   }
 
-  getProfileById(): Observable<AuthUser> {
-    return this.http.get<AuthUserApiResponse>(`${this.baseUrl}/api/profile`).pipe(
+  getProfileById(id:number): Observable<AuthUser> {
+    return this.http.get<AuthUserApiResponse>(`${this.baseUrl}/api/profile/${id}`).pipe(
       map(response => ProfileMapper.mapToAuthUser(response.data))
     );
   }
