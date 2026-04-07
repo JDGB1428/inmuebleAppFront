@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChangeDetectorRef, Component, effect, inject, input, OnInit, signal } from '@angular/core';
 import { PropertyServices } from '@services/property.service';
 import { ErrorFormComponent } from "../../../auth/component/error-form/error-form.component";
@@ -80,6 +80,8 @@ export class FormPropertyComponent implements OnInit {
           description: prop.description,
           price: prop.price,
           direction: prop.direction,
+          city:prop.city,
+          country:prop.country,
           room: prop.room,
           area_m2: prop.area_m2,
           bathrooms: prop.bathrooms,
@@ -101,13 +103,15 @@ export class FormPropertyComponent implements OnInit {
 
 
   propertyForm: FormGroup = this.fb.group({
-    'title': [''],
-    'description': [''],
-    'price': [],
-    'direction': [''],
-    'room': [0],
-    'area_m2': [0],
-    'bathrooms': [0],
+    'title': ['', Validators.required],
+    'description': ['', Validators.required],
+    'price': [ Validators.required],
+    'direction': ['', Validators.required],
+    'city': ['', Validators.required],
+    'country': ['', Validators.required],
+    'room': [ Validators.required],
+    'area_m2': [ Validators.required],
+    'bathrooms': [ Validators.required],
     'state': ['available'],
     'category_id': [],
     'features': this.fb.group({

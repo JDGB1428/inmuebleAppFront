@@ -34,6 +34,20 @@
               class="input input-bordered w-full focus:input-primary transition-colors">
             <error-form [control]="propertyForm.get('direction')" />
           </div>
+
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Ciudad</span></label>
+            <input type="text" formControlName="city" placeholder="Ej: Bogota, Cartagena, Medellin"
+              class="input input-bordered w-full focus:input-primary transition-colors">
+            <error-form [control]="propertyForm.get('city')" />
+          </div>
+
+          <div class="form-control w-full">
+            <label class="label"><span class="label-text font-medium">Pais</span></label>
+            <input type="text" formControlName="country" placeholder="Ej: Colombia, Argentina, Mexico"
+              class="input input-bordered w-full focus:input-primary transition-colors">
+            <error-form [control]="propertyForm.get('country')" />
+          </div>
         </div>
 
         <!-- Descripción -->
