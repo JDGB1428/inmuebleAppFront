@@ -22,7 +22,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
-          <span class="text-lg">Cartagena, Bolívar, CO</span>
+          <span class="text-lg">{{property()?.city}}, {{property()?.country}}</span>
         </div>
       </div>
       <div class="flex gap-2">
@@ -179,6 +179,12 @@
                   currency:'COP':'symbol-narrow':'1.0-0'}}</span>
               </div>
               }
+
+              <div class="flex justify-between">
+                <span class="text-base-content/70">Direccion</span>
+                <!-- Le agregamos el Currency Pipe para que se vea como moneda ($ 4,765,745) -->
+                <span class="font-semibold">{{property()?.direction}}</span>
+              </div>
 
               <div class="flex justify-between">
                 <span class="text-base-content/70">Estado</span>
