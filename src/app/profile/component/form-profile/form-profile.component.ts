@@ -22,6 +22,7 @@ export class FormProfileComponent implements OnInit {
 
   isAgent = this.authService.isAgent();
   isClient = this.authService.isClient();
+  user = this.authService.currentUser;
 
   constructor() {
     this.profileForm = this.fb.group({
@@ -55,7 +56,7 @@ export class FormProfileComponent implements OnInit {
   // 1. CARGAR DATOS DEL BACKEND
   // -------------------------------------------------------------
   private loadProfileData() {
-    this.profileService.getProfileById().subscribe({
+    this.profileService.getProfileById(this.user()?.id ?? 0).subscribe({
       next: (user) => {
         if (!user) return;
 
@@ -92,6 +93,7 @@ export class FormProfileComponent implements OnInit {
             address: p.address !== 'Sin dirección' ? p.address : '',
             jobTitle: p.jobTitle !== 'Sin cargo' ? p.jobTitle : '',
             experience: p.yearsOfExperience,
+            nationality: p.nationality,
 
             // Asignar los valores a los checkboxes (si existen en el JSON)
             spec_sales: parsedSpecialties.sales || false,
@@ -160,8 +162,9 @@ export class FormProfileComponent implements OnInit {
         phone: 'phone',
         whatsapp: 'whatsapp',
         address: 'address',
-        jobTitle: 'job_title',          // Mapeo automático
-        experience: 'years_of_experience' // Mapeo automático
+        jobTitle: 'job_title',
+        experience: 'years_of_experience',
+        nationality: 'nationality',
       };
 
       // Iteramos sobre las llaves del diccionario y agregamos al FormData
