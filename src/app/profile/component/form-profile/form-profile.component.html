@@ -9,9 +9,9 @@
           <h2 class="text-2xl font-bold text-primary">Configuración de Perfil</h2>
           <p class="text-sm text-base-content/70">Actualiza tu información personal y profesional.</p>
         </div>
-        @if(isAgent){
+        @if(isOwner){
         <div class="badge badge-primary badge-outline font-semibold uppercase">
-          Agente Inmobiliario
+          Propetario Inmobiliario
         </div>
         }
         @if(isClient){
@@ -92,8 +92,8 @@
           </div>
         </fieldset>
 
-        <!-- SECCIÓN 2: INFO PROFESIONAL (Agentes) -->
-        @if(isAgent){
+        <!-- SECCIÓN 2: INFO PROFESIONAL (Propetarios) -->
+        @if(isOwner){
         <fieldset class="p-5 border border-secondary/20 bg-secondary/5 rounded-xl shadow-inner transition-all">
           <legend class="text-secondary font-bold px-3 py-1 bg-base-100 border border-secondary/20 rounded-md">
             Información Profesional (Perfil Público)
@@ -144,7 +144,7 @@
         }
 
         <!-- SECCIÓN 3: REDES SOCIALES -->
-        @if(isAgent){
+        @if(isOwner){
         <fieldset class="space-y-4">
           <legend class="text-lg font-semibold border-b border-base-200 pb-2 w-full mb-4">Redes Sociales</legend>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -208,7 +208,7 @@
           </div>
 
           <h2 class="card-title text-2xl mb-0">{{ profileForm.get('fullName')?.value || 'Tu Nombre' }}</h2>
-          @if(isAgent){
+          @if(isOwner){
           <p class="text-primary font-medium text-sm m-0">
             {{ profileForm.get('jobTitle')?.value || 'Tu Cargo' }}
           </p>
@@ -252,7 +252,7 @@
             </div>
             }
 
-            @if(isAgent){
+            @if(isOwner){
             @if(profileForm.get('experience')?.value) {
             <div class="flex items-center gap-3 text-base-content/80 mt-2 p-2 bg-base-200 rounded-lg">
               <span class="font-bold text-primary">{{ profileForm.get('experience')?.value }}</span>
@@ -282,7 +282,7 @@
 
             }
 
-            @if(isAgent){
+            @if(isOwner){
             @if (profileForm.get('facebook')?.value || profileForm.get('instagram')?.value ||
             profileForm.get('linkedin')?.value) {
             <div class="mt-4 pt-3 border-t border-base-200 flex justify-center gap-4">

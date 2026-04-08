@@ -20,7 +20,7 @@ export class FormProfileComponent implements OnInit {
   avatarPreview = signal<string>('https://ui-avatars.com/api/?name=Usuario&background=random');
   selectedAvatarFile = signal<File | null>(null);
 
-  isAgent = this.authService.isAgent();
+  isOwner = this.authService.isOwner();
   isClient = this.authService.isClient();
   user = this.authService.currentUser;
 
@@ -120,7 +120,7 @@ export class FormProfileComponent implements OnInit {
   // LÓGICA DE ROLES
   // -------------------------------------------------------------
   private ajustarValidacionesSegunRol() {
-    if (!this.isAgent) {
+    if (!this.isOwner) {
       const jobTitleControl = this.profileForm.get('jobTitle');
       if (jobTitleControl) {
         jobTitleControl.clearValidators();

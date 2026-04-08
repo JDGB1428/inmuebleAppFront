@@ -11,7 +11,7 @@ import { Navbar } from "../../../shared/component/navbar/navbar.component";
 export class AdminLayoutComponent {
   private authService = inject(AuthService);
 
-  isAgent = this.authService.isAgent();
+  isOwner = this.authService.isOwner();
   isAdmin = this.authService.isAdmin();
 
 }

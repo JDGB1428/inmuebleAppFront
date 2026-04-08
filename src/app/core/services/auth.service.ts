@@ -24,7 +24,7 @@ export class AuthService {
 
   // Computed Signals: Se recalculan automáticamente si el token o el rol cambian
   public isAuthenticated = computed(() => this.tokenSignal() !== '');
-  public isAgent = computed(() => this.roleSignal() === 'agent');
+  public isOwner = computed(() => this.roleSignal() === 'owner');
   public isAdmin = computed(() => this.roleSignal() === 'admin');
   public isClient = computed(() => this.roleSignal() === 'client');
 
@@ -103,7 +103,7 @@ export class AuthService {
   }
 
   redirectByRole(roles: string) {
-    if (roles === 'admin' || roles === 'agent') {
+    if (roles === 'admin' || roles === 'owner') {
       this.routes.navigate(['/admin/dashboard/home']);
     } else if (roles === 'client') {
       this.routes.navigate(['/private/home']);

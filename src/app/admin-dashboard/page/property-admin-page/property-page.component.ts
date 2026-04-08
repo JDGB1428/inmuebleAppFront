@@ -1,10 +1,10 @@
 
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
-import { CardPropertyComponent } from "../../../property/component/card-property/card-property.component";
+import { CardPropertyComponent } from "@property/component/card-property/card-property.component";
 import { PropertyServices } from '@services/property.service';
 import { Property } from '@interfaces/property.interfaces';
-import { LoadingCardComponent } from "../../../shared/component/loading-card/loading-card.component";
+import { LoadingCardComponent } from "@shared/component/loading-card/loading-card.component";
 import { AuthService } from '@services/auth.service';
 import { SearchComponent } from "@shared/component/search/search.component";
 import { FilterComponent } from "@shared/component/filter/filter.component";
@@ -24,7 +24,7 @@ export class ApartmentPageComponent{
   readonly search = signal('');
   readonly activeCategoryId = signal(0);
   readonly loadingCards = Array.from({ length: 8 });
-  readonly isAgent = this.authService.isAgent();
+  readonly isOwner = this.authService.isOwner();
   readonly isAdmin = this.authService.isAdmin();
 
   private readonly debouncedSearch = debounceSignal(this.search, 400);

@@ -24,7 +24,7 @@
 
     <p class="font-bold text-xl font-montserrat ">Desde de {{properties().price | currency:'COP':'code'}}</p>
     <div class="card-actions justify-end">
-      @if (isAgent() || isAdmin()) {
+      @if (isOwner() || isAdmin()) {
         <a [routerLink]="['show', properties().id]" class="link link-primary">Ver mas</a>
       }
 

@@ -16,7 +16,7 @@ export class CardPropertyComponent {
   private authService = inject(AuthService);
 
   isClient = this.authService.isClient;
-  isAgent = this.authService.isAgent;
+  isOwner = this.authService.isOwner;
   isAdmin = this.authService.isAdmin;
 
 }

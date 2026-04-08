@@ -1,13 +1,13 @@
 import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PropertyServices } from '../../../core/services/property.service';
+import { PropertyServices } from '@services/property.service';
 import { switchMap } from 'rxjs';
-import { Property } from '../../../core/interfaces/property.interfaces';
-import { CurrencyPipe, DatePipe, Location, NgClass } from '@angular/common';
-import { ConfirmModalComponent } from "../../../shared/component/confirm-modal/confirm-modal.component";
-import { ToastService } from '../../../core/services/toast.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { LoadingShowPropertyComponent } from "../../../shared/component/loading-show-property/loading-show-property.component";
+import { Property } from '@interfaces/property.interfaces';
+import { CurrencyPipe, Location, NgClass } from '@angular/common';
+import { ConfirmModalComponent } from "@shared/component/confirm-modal/confirm-modal.component";
+import { ToastService } from '@services/toast.service';
+import { AuthService } from '@services/auth.service';
+import { LoadingShowPropertyComponent } from "@shared/component/loading-show-property/loading-show-property.component";
 import { ComentaryClient } from "../../../private-front/components/comentary-client/comentary-client.component";
 
 @Component({
@@ -27,7 +27,7 @@ export class PropertyShowPageComponent implements OnInit {
   private readonly authService = inject(AuthService);
 
   isClient = this.authService.isClient();
-  isAgent = this.authService.isAgent();
+  isOwner = this.authService.isOwner();
 
   property = signal<Property | null>(null);
   propertyIdDelete = signal<Property['id']>(0);
@@ -115,11 +115,9 @@ export class PropertyShowPageComponent implements OnInit {
     })
   }
 
-  // --- NUEVO MÉTODO PARA EL LIKE ---
   toggleLike() {
     const currentProperty = this.property();
 
-    // Validamos que la propiedad exista antes de enviar
     if (!currentProperty || !currentProperty.id) return;
 
     this.isLiking.set(true);
@@ -127,10 +125,8 @@ export class PropertyShowPageComponent implements OnInit {
     this.propertyService.toggleLike(currentProperty.id).subscribe({
       next: (response) => {
         if (response.is_liked) {
-          // Agregamos el objeto completo de la propiedad al array
           this.likedProperty.update(properties => [...properties, currentProperty]);
         } else {
-          // Filtramos excluyendo el objeto que tenga este ID
           this.likedProperty.update(properties => properties.filter(prop => prop.id !== currentProperty.id));
         }
 

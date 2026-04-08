@@ -10,7 +10,7 @@ import { AuthService } from '@services/auth.service';
 export class NotFoundPageComponent {
   private readonly authService = inject(AuthService);
 
-  isAgent = this.authService.isAgent
+  isOwner = this.authService.isOwner
   isAdmin = this.authService.isAdmin
   isClient = this.authService.isClient
 

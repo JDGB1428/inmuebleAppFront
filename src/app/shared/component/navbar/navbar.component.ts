@@ -20,7 +20,7 @@ export class Navbar implements OnInit {
 
   user = computed(() => this.authService.currentUser());
   isClient = computed(() => this.authService.isClient());
-  isAgent = computed(() => this.authService.isAgent());
+  isOwner = computed(() => this.authService.isOwner());
   isAdmin = computed(() => this.authService.isAdmin());
 
   profiles = signal<AuthUser | null>(null);
@@ -32,7 +32,7 @@ export class Navbar implements OnInit {
   dropdownElement = viewChild<ElementRef<HTMLDivElement>>('notifDropdown');
 
   ngOnInit(): void {
-    if (this.isClient() || this.isAdmin() || this.isAgent()) {
+    if (this.isClient() || this.isAdmin() || this.isOwner()) {
       this.getProfile();
       this.initNotifications();
     }

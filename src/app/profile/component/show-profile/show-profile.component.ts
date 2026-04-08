@@ -29,7 +29,7 @@ export class ShowProfileComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
 
-  isAgent = this.authService.isAgent()
+  isOwner = this.authService.isOwner()
   profile = signal<AuthUser | null>(null);
   socialLinks = signal<UserSocialLinks>({});
   specialties = signal<UserSpecialties>({})

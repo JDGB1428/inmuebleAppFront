@@ -7,7 +7,7 @@
         Lo sentimos, la ruta a la que intentas acceder no existe, ha sido eliminada o su nombre ha cambiado.
       </p>
 
-      @if(isAdmin() || isAgent()){
+      @if(isAdmin() || isOwner()){
       <a class="btn btn-primary" [routerLink]="['/admin/dashboard/home']">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
