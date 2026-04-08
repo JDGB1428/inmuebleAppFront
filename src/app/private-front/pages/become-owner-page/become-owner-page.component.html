@@ -1,0 +1,26 @@
+<div class="card bg-base-100 shadow-xl max-w-lg mx-auto mt-10">
+  <div class="card-body">
+    <h2 class="card-title">¡Conviértete en Propietario!</h2>
+    <p class="text-sm text-base-content/70">
+      Envía una solicitud al administrador para poder publicar tus propios inmuebles.
+    </p>
+
+    <div class="form-control w-full mt-4">
+      <label class="label"><span class="label-text">¿Por qué quieres ser propietario? (Opcional)</span></label>
+      <textarea class="textarea textarea-bordered h-24" placeholder="Ej: Tengo 3 apartamentos para arrendar..."></textarea>
+    </div>
+
+    <!-- @if (message()) {
+      <div class="alert alert-info mt-4">
+        <span>{{ message() }}</span>
+      </div>
+    } -->
+
+    <!-- <div class="card-actions justify-end mt-6">
+      <button class="btn btn-primary" [disabled]="loading()" (click)="submitRequest()">
+        @if (loading()) { <span class="loading loading-spinner"></span> }
+        Enviar Solicitud
+      </button>
+    </div> -->
+  </div>
+</div>
