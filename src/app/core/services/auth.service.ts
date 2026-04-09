@@ -63,7 +63,7 @@ export class AuthService {
         sessionStorage.clear();
 
         // 3. Redirigimos al inicio de sesión
-        this.routes.navigate(['/login']);
+        this.routes.navigate(['/auth/login']);
       }),
       catchError((error) => throwError(() => error))
     );
