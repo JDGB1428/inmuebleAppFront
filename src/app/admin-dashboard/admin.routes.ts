@@ -9,6 +9,7 @@ import { PropertyShowPageComponent } from "./page/property-show-page/property-sh
 import { TrashPropertyPageComponent } from "./page/trash-property-page/trash-property-page.component";
 import { ProfileAdminPageComponent } from "./page/profile-admin-page/profile-admin-page.component";
 import { ShowProfileComponent } from "@profile/component/show-profile/show-profile.component";
+import { AdminRequestPageComponent } from "./page/admin-request-page/admin-request-page.component";
 
 export const adminRoutes:Routes = [
   {
@@ -20,6 +21,10 @@ export const adminRoutes:Routes = [
       },
       { path:'property',
         component: ApartmentPageComponent,
+      },
+      {
+        path:'request',
+        component:AdminRequestPageComponent
       },
       {
         path:'property/create',
