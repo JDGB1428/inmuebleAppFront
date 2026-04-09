@@ -13,6 +13,7 @@ export class NotificationService {
   private readonly apiUrl = environment.LaravelAPI
   private readonly http = inject(HttpClient);
   public notifications = signal<any[]>([]);
+  private currentListeningUserId: number | null = null;
 
 
   public fetchUnreadNotificationsFromDB(): void {
@@ -54,7 +55,6 @@ export class NotificationService {
       return;
     }
 
-    // 1. Inicializamos Echo solo si no existe aún
     if (!this.echo) {
       (window as any).Pusher = Pusher;
       this.echo = new Echo({
@@ -62,13 +62,13 @@ export class NotificationService {
         key: environment.reverb.key,
         wsHost: environment.reverb.host,
         wsPort: environment.reverb.port,
-        wssPort: environment.reverb.port, // Importante para evitar cierres prematuros
+        wssPort: environment.reverb.port,
         forceTLS: environment.reverb.useTLS,
         disableStats: true,
-        enableTransports: ['ws', 'wss'],  // Mantener conexión viva
-        activityTimeout: 120000,          // Evitar desconexiones por ping
+        enableTransports: ['ws', 'wss'],
+        activityTimeout: 120000,
         pongTimeout: 30000,
-        authEndpoint: `${environment.LaravelAPI}/api/broadcasting/auth`,
+        authEndpoint: `${this.apiUrl}/api/broadcasting/auth`,
         auth: {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,7 +77,6 @@ export class NotificationService {
         }
       });
 
-      // 2. Pasar configuraciones seguras de Sanctum al conector
       if (this.echo.connector && this.echo.connector.pusher) {
         if (!this.echo.connector.pusher.config.auth) {
           this.echo.connector.pusher.config.auth = { headers: {} };
@@ -88,11 +87,10 @@ export class NotificationService {
           Accept: 'application/json'
         };
 
-        // Habilitar credenciales CORS para Sanctum SPA
         this.echo.connector.pusher.config.auth.withCredentials = true;
 
         this.echo.connector.pusher.config.channelAuthorization = {
-          endpoint: `${environment.LaravelAPI}/api/broadcasting/auth`,
+          endpoint: `${this.apiUrl}/api/broadcasting/auth`,
           transport: 'ajax',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -102,23 +100,47 @@ export class NotificationService {
       }
     }
 
+    if (this.currentListeningUserId === userId) {
+      return;
+    }
+
+    if (this.currentListeningUserId && this.currentListeningUserId !== userId) {
+      this.echo.leave(`App.Models.User.${this.currentListeningUserId}`);
+    }
+
+    this.currentListeningUserId = userId;
+
     const channel = this.echo.private(`App.Models.User.${userId}`);
 
-    // ESCUCHAR EL NUEVO NOMBRE DEL EVENTO (Importante el punto inicial)
     channel.notification((notification: any) => {
       this.ngZone.run(() => {
         const payload = notification.data ? notification.data : notification;
 
-        const newNotif = { notif_id: `temporal-${payload.property_id}`, ...payload };
-        this.notifications.update(current => [newNotif, ...current]);
+        const newNotif = { notif_id: `temporal-${payload.property_id}-${Date.now()}`, ...payload };
+
+        this.notifications.update(current => {
+          // Verificamos si la notificación ya existe (evita duplicados si llega por HTTP y WS al mismo tiempo)
+          const exists = current.some(n =>
+            n.property_id === newNotif.property_id &&
+            n.title === newNotif.title &&
+            n.name === newNotif.name // Asegura que es la misma interacción
+          );
+
+          if (exists) {
+            return current;
+          }
+
+          return [newNotif, ...current];
+        });
       });
     });
   }
 
-  // Método para desconectar al usuario cuando hace logout
   public disconnect(): void {
     if (this.echo) {
       this.echo.disconnect();
     }
+    this.currentListeningUserId = null;
+    this.notifications.set([]);
   }
 }
