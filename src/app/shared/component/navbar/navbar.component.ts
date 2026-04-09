@@ -51,7 +51,7 @@ export class Navbar implements OnInit {
   initNotifications(): void {
     const currentUser = this.user();
 
-    if (currentUser?.id && this.isClient()) {
+    if (currentUser?.id && (this.isClient() || this.isOwner())) {
       this.notificationService.fetchUnreadNotificationsFromDB();
       this.notificationService.listenForProperties(currentUser.id);
     }
@@ -65,6 +65,7 @@ export class Navbar implements OnInit {
     this.authService.authLogout().subscribe({
       next: () => {
         this.profiles.set(null);
+        this.notificationService.disconnect();
         this.location.back();
       },
       error: (err) => console.error('Error al cerrar sesión:', err)
@@ -74,7 +75,12 @@ export class Navbar implements OnInit {
   goToProperty(propertyId: number): void {
     this.notificationService.markPropertyAsRead(propertyId);
     this.router.navigate(['/private/home/show', propertyId]);
-    // Cierra el dropdown de DaisyUI quitando el foco del botón
+    this.dropdownElement()?.nativeElement.blur();
+  }
+
+  onwerGoToProperty(propertyId:number):void{
+    this.notificationService.markPropertyAsRead(propertyId);
+    this.router.navigate(['/admin/dashboard/property/show',propertyId]);
     this.dropdownElement()?.nativeElement.blur();
   }
 }
