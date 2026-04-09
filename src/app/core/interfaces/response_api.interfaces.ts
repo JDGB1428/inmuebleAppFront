@@ -48,9 +48,6 @@ export interface AuthUserApiResponse {
   data: AuthUserResponseDTO;
 }
 
-// --- Modelos Frontend (Lo que usará tu componente) ---
-
-// Perfil adaptado a camelCase
 export interface UserProfileData {
   id: number;
   userId: number;
@@ -81,6 +78,18 @@ export interface Commentary {
   description: string;
   created_at:  Date;
 }
+
+export interface RoleRequest {
+  id:          number;
+  userId:      number;
+  description: string;
+  status:      string;
+  createdAt:   Date;
+  updatedAt:   Date;
+  user:        UserTheProfile;
+}
+
+
 
 
 
