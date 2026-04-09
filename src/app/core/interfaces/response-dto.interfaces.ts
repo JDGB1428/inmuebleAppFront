@@ -1,3 +1,4 @@
+import { RoleRequest } from './response_api.interfaces';
 
 export type PropertyDTO = {
   id: number;
@@ -97,6 +98,16 @@ export type AuthUserResponseDTO = {
   name: string;
   email: string;
   profile: SingleProfileResponseDTO | null; // Puede no tener perfil aún
+}
+
+export type RoleRequestDTO = {
+  id: number;
+  user_id: number;
+  description: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  user: UserResponseDTO
 }
 
 
