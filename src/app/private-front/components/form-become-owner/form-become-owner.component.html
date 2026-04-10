@@ -1,0 +1,11 @@
+<form [formGroup]="FormBecome" (submit)="onSubmit()"  class="form-control w-full mt-4">
+  <label class="label"><span class="label-text">¿Por qué quieres ser propietario? (Opcional)</span></label>
+  <textarea class="textarea textarea-bordered h-24 w-full"
+    placeholder="Ej: Tengo 3 apartamentos para arrendar..." formControlName="description"></textarea>
+
+  <div class="card-actions justify-end mt-6">
+    <button class="btn btn-primary">
+      Enviar Solicitud
+    </button>
+  </div>
+</form>
