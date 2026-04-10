@@ -14,3 +14,7 @@ export interface HttpResponseProperty<T> {
 export interface HTTPResponseCategory {
     data: CategoryDTO[];
 }
+
+export interface HttpResponseRoleRequest {
+  message:string
+}
