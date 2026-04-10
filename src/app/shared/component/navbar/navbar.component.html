@@ -66,6 +66,8 @@
               <a class="flex flex-col items-start gap-1 w-full whitespace-normal"
                 (click)="onwerGoToProperty(notif.property_id)">
                 <span class="font-bold text-xs">{{ notif.name }}</span>
+                <span class="font-bold text-xs">{{ notif.title }}</span>
+                <span class="font-bold text-xs">{{ notif.message }}</span>
               </a>
             </li>
             } @empty {
