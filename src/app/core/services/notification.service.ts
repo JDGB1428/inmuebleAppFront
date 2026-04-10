@@ -27,7 +27,7 @@ export class NotificationService {
   }
 
   public markAsReadInDB(): void {
-    this.http.post(`${environment.LaravelAPI}/api/notifications/mark-read`, {}).subscribe({
+    this.http.post(`${environment.LaravelAPI}/api/notifications/read-all`, {}).subscribe({
       next: () => {
         this.notifications.set([]); // Limpiamos la campanita localmente
       }
@@ -35,7 +35,7 @@ export class NotificationService {
   }
 
   public markPropertyAsRead(propertyId: number): void {
-    this.http.post(`${environment.LaravelAPI}/api/notifications/${propertyId}/mark-read`, {})
+    this.http.post(`${environment.LaravelAPI}/api/notifications/read/${propertyId}`, {})
       .subscribe({
         next: () => {
           this.notifications.update(current =>
