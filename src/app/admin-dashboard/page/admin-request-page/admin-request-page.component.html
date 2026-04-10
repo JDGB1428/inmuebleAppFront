@@ -1,0 +1,76 @@
+<div class="max-w-6xl mx-auto p-4 md:p-8">
+
+  <!-- Encabezado de la página -->
+  <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-base-content flex items-center gap-2">
+        Listado de solicitudes
+      </h2>
+      <p class="text-sm text-base-content/70">Administra las solicitudes de tus clientes.</p>
+    </div>
+
+    <!-- Contador -->
+    <div class="badge badge-primary badge-outline p-3 font-semibold">
+      {{ rol_request().length }} Inmuebles
+    </div>
+  </div>
+
+
+  <!-- Asumiendo que trashedProperties es una Signal, se pasa ejecutándola () -->
+  <app-data-table [data]="rol_request()" emptyTitle="Papelera Vacía" [searchKeys]="['title', 'direction']"
+    emptyMessage="No hay inmuebles eliminados actualmente.">
+
+    <!-- CABECERA -->
+    <ng-template #header>
+      <tr>
+        <th>Usuario</th>
+        <th>Motivo</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+
+    <!-- FILAS (let-property captura el $implicit) -->
+    <ng-template #body let-request>
+      <td>
+        <div class="font-bold">{{ request.user.name }}</div>
+        <div class="text-sm opacity-50">{{ request.user.email }}</div>
+      </td>
+
+      <td class="badge badge-ghost badge-sm">
+        {{request.description}}
+      </td>
+
+      <td class="font-semibold text-primary">
+        {{ request.createdAt | date:'dd/MM/yyyy, HH:mm'}}
+      </td>
+
+      <td class="flex gap-2">
+        <button (click)="roleApprove(request.id)" class="btn btn-sm btn-success text-white">Aprobar</button>
+        <button (click)="openDeleteConfirmation(request.id)" class="btn btn-sm btn-error text-white">Rechazar</button>
+      </td>
+    </ng-template>
+
+    @if (rol_request().length === 0) {
+    <div class="flex flex-col items-center justify-center py-16 text-center">
+      <div class="bg-base-200 p-4 rounded-full mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-base-content/40" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </div>
+      <h3 class="font-bold text-lg text-base-content/70">Papelera Vacía</h3>
+      <p class="text-sm text-base-content/50">No hay solicitudes eliminados actualmente.</p>
+    </div>
+    }
+
+  </app-data-table>
+
+
+  <shared-confirm-modal #rejectRequestModal title="¿Rechazar la solicitud?"
+    message="Estas seguro que quieres rechazar esta solicitud." confirmText="Sí, rechazar"
+    cancelText="Cancelar" (confirm)="destroyRequest()" />
+
+
+</div>
