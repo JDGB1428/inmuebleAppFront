@@ -110,5 +110,9 @@ export type RoleRequestDTO = {
   user: UserResponseDTO
 }
 
+export type CreateRoleRequestDTO = {
+  description:string
+}
+
 
 
