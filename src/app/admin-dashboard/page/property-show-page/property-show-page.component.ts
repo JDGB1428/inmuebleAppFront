@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, viewChild, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PropertyServices } from '@services/property.service';
 import { switchMap } from 'rxjs';
@@ -9,15 +9,16 @@ import { ToastService } from '@services/toast.service';
 import { AuthService } from '@services/auth.service';
 import { LoadingShowPropertyComponent } from "@shared/component/loading-show-property/loading-show-property.component";
 import { ComentaryClient } from "../../../private-front/components/comentary-client/comentary-client.component";
+import { GalleryModalComponent } from "@shared/component/gallery-modal/gallery-modal.component";
 
 @Component({
   selector: 'app-property-show-page',
   templateUrl: './property-show-page.component.html',
-  imports: [CurrencyPipe, ConfirmModalComponent, NgClass, RouterLink, LoadingShowPropertyComponent, ComentaryClient]
+  imports: [CurrencyPipe, ConfirmModalComponent, NgClass, RouterLink, LoadingShowPropertyComponent, ComentaryClient, GalleryModalComponent]
 })
 export class PropertyShowPageComponent implements OnInit {
   loading = signal<boolean>(true);
-
+  likesCount = signal<number>(0);
   isLiking = signal<boolean>(false);
 
   private readonly propertyService = inject(PropertyServices);
@@ -45,6 +46,7 @@ export class PropertyShowPageComponent implements OnInit {
   })
 
   @ViewChild('deleteModal') deleteModal!: ConfirmModalComponent
+  galleryModal = viewChild(GalleryModalComponent);
 
   ngOnInit(): void {
     this.getPropertyById();
@@ -111,6 +113,7 @@ export class PropertyShowPageComponent implements OnInit {
     ).subscribe((property) => {
       const { data } = property
       this.property.set(data);
+      this.likesCount.set(data.likes_count || 0);
       this.loading.set(false);
     })
   }
@@ -126,8 +129,10 @@ export class PropertyShowPageComponent implements OnInit {
       next: (response) => {
         if (response.is_liked) {
           this.likedProperty.update(properties => [...properties, currentProperty]);
+          this.likesCount.update(count => count + 1);
         } else {
           this.likedProperty.update(properties => properties.filter(prop => prop.id !== currentProperty.id));
+          this.likesCount.update(count => Math.max(0, count - 1));
         }
 
         this.isLiking.set(false);
@@ -166,6 +171,10 @@ export class PropertyShowPageComponent implements OnInit {
   openDeleteConfirmation(id: number) {
     this.propertyIdDelete.set(id);
     this.deleteModal.open();
+  }
+
+  openGallery(index: number) {
+    this.galleryModal()?.open(index);
   }
 
   destroyProperty() {
