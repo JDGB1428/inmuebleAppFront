@@ -17,6 +17,7 @@ export interface Property {
   created_at: Date;
   deleted_at?: Date | null;
   features: Features
+  likes_count:number
 }
 
 

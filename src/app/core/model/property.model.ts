@@ -21,6 +21,7 @@ export class PropertyModel {
       category_id: Number(dto.category_id),
       image: this.parseImages(dto.image),
       user_id: dto.user_id,
+      likes_count:dto.likes_count,
       features: this.mapToFeatures(dto.features),
       updated_at: new Date(dto.updated_at),
       created_at: new Date(dto.created_at),

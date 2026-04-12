@@ -19,6 +19,7 @@ export type PropertyDTO = {
   created_at: string;
   deleted_at?: string | null;
   features: FeaturesDTO;
+  likes_count:number
 }
 
 export type CategoryDTO = {
