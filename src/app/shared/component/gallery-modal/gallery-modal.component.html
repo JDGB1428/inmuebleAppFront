@@ -1,0 +1,43 @@
+<dialog #galleryDialog class="modal backdrop-blur-md z-50">
+  <div class="modal-box w-11/12 max-w-7xl h-[95vh] bg-black p-0 overflow-hidden relative flex flex-col rounded-2xl shadow-2xl">
+
+    <form method="dialog" class="absolute right-4 top-4 z-50">
+      <button class="btn btn-sm btn-circle btn-ghost text-white bg-white/20 hover:bg-white/40 backdrop-blur-md" (click)="close()">✕</button>
+    </form>
+
+    <div class="absolute left-4 top-4 z-50 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-sm font-semibold tracking-widest">
+      {{ currentIndex() + 1 }} / {{ images().length }}
+    </div>
+
+    <div class="flex-1 w-full flex items-center justify-center relative p-4 pb-0">
+      <button class="btn btn-circle btn-ghost absolute left-4 text-white bg-white/10 hover:bg-white/30 backdrop-blur-md z-10"
+              (click)="prev($event)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      </button>
+
+      <img [src]="images()[currentIndex()]" class="w-full h-full max-h-[75vh] object-contain select-none transition-opacity duration-300 drop-shadow-2xl" />
+
+      <button class="btn btn-circle btn-ghost absolute right-4 text-white bg-white/10 hover:bg-white/30 backdrop-blur-md z-10"
+              (click)="next($event)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      </button>
+    </div>
+
+    <div class="h-24 bg-black/80 flex items-center gap-3 px-6 overflow-x-auto py-4 snap-x">
+      @for (img of images(); track $index) {
+        <div class="h-full min-w-25 shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition-all duration-200"
+             [class.border-primary]="currentIndex() === $index"
+             [class.border-transparent]="currentIndex() !== $index"
+             [class.opacity-50]="currentIndex() !== $index"
+             (click)="currentIndex.set($index)">
+          <img [src]="img" class="h-full w-full object-cover" />
+        </div>
+      }
+    </div>
+
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button (click)="close()">close</button>
+  </form>
+</dialog>
