@@ -6,6 +6,7 @@ import { ProfileClientPageComponent } from "./pages/profile-client-page/profile-
 import { PropertyShowPageComponent } from "../admin-dashboard/page/property-show-page/property-show-page.component";
 import { FavoritePagesComponent } from "./pages/favorite-pages/favorite-pages.component";
 import { BecomeOwnerPageComponent } from "./pages/become-owner-page/become-owner-page.component";
+import { CalendarComponent } from "@shared/component/calendar/calendar.component";
 
 export const InmueblesRoutes:Routes = [
   {
@@ -25,12 +26,20 @@ export const InmueblesRoutes:Routes = [
         component:FavoritePagesComponent
       },
       {
+        path:'booking',
+        component:CalendarComponent
+      },
+      {
         path:'convertirse',
         component:BecomeOwnerPageComponent
       },
       {
         path:'home/show/:id',
         component:PropertyShowPageComponent
+      },
+      {
+        path:'home/show/:id/booking',
+        component:CalendarComponent
       },
       {
         path:'favoritos/show/:id',
