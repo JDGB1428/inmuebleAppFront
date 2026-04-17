@@ -115,5 +115,17 @@ export type CreateRoleRequestDTO = {
   description:string
 }
 
+export type BookingDTO = {
+  property_id:  number;
+  user_id:      number;
+  check_in:     Date;
+  check_out:    Date;
+  guests_count: number;
+  total_price:  number;
+  updated_at:   Date;
+  created_at:   Date;
+  id:           number;
+}
+
 
 
