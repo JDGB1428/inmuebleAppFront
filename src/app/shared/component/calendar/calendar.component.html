@@ -1,0 +1,93 @@
+<div class="p-4 md:p-6 bg-base-100 rounded-xl shadow-md w-full max-w-5xl mx-auto">
+  <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-primary text-center md:text-left">
+    Reservas del Inmueble
+  </h2>
+
+  <div class="calendar-wrapper">
+    <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+  </div>
+</div>
+
+<dialog #bookingModal class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box w-full max-w-xl p-0 flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
+
+    <div class="p-4 border-b border-base-200 bg-base-100 flex-none">
+      <h3 class="font-bold text-xl text-primary text-center">Nueva Reserva</h3>
+    </div>
+
+    <div class="p-4 sm:p-6 overflow-y-auto grow space-y-4 bg-base-50">
+
+      <div class="bg-base-100 p-4 rounded-xl border border-base-200 shadow-sm">
+        <div class="flex items-center justify-between gap-2 text-center">
+          <div class="flex-1">
+            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Llegada</p>
+            <p class="font-bold text-lg text-neutral">{{ selectedRange?.startStr }}</p>
+          </div>
+          <div class="text-primary">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </div>
+          <div class="flex-1">
+            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Salida</p>
+            <p class="font-bold text-lg text-neutral">{{ selectedRange?.endStr }}</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-base-200 text-center">
+            <span class="badge badge-primary badge-md font-semibold">{{ totalDays() }} días / {{ totalNights() }} noches</span>
+        </div>
+      </div>
+
+      <form [formGroup]="bookingForm" (ngSubmit)="saveBooking()" id="bookingForm" class="space-y-4">
+        <div class="border border-base-200 p-4 rounded-xl bg-base-100 shadow-sm">
+          <h4 class="font-bold text-xs mb-3 uppercase tracking-wider text-neutral/60 text-center">Resumen de pago</h4>
+
+          <div class="flex justify-between text-sm mb-2">
+            <span>Tarifa base</span>
+            <span>${{ basePriceTotal() | number }}</span>
+          </div>
+
+          @if (extraGuestsFee() > 0) {
+            <div class="flex justify-between text-sm mb-3 text-info font-medium">
+              <span>Huéspedes extra</span>
+              <span>+ ${{ extraGuestsFee() | number }}</span>
+            </div>
+          }
+
+          <div class="p-3 border-2 border-base-200 rounded-lg bg-base-50 focus-within:border-primary transition-all">
+            <div class="flex justify-between items-center mb-1 px-1">
+                <span class="text-[10px] font-bold text-gray-500 uppercase">Huéspedes</span>
+                <span class="text-[10px] text-gray-400">Máx. {{ propertyMaxGuests }}</span>
+            </div>
+            <div class="relative flex items-center justify-center">
+              <span class="absolute left-2 text-xl text-primary/60">👤</span>
+              <input
+                type="number"
+                formControlName="guests_count"
+                class="input input-ghost w-full text-center text-2xl font-black text-primary h-12 bg-transparent focus:bg-transparent"
+                min="1" />
+            </div>
+          </div>
+
+          <div class="divider my-3"></div>
+
+          <div class="flex justify-between items-center font-bold">
+            <span class="text-sm text-neutral/60">Total</span>
+            <span class="text-primary text-3xl tracking-tight">${{ totalEstimatedPrice() | number }}</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="p-4 border-t border-base-200 bg-base-100 flex-none">
+      <div class="flex gap-3 justify-center">
+        <button type="button" class="btn btn-ghost flex-1" (click)="closeModal()">Cancelar</button>
+        <button type="submit" form="bookingForm" class="btn btn-primary flex-1 font-bold" [disabled]="bookingForm.invalid">
+          Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button (click)="closeModal()">Cerrar</button>
+  </form>
+</dialog>
